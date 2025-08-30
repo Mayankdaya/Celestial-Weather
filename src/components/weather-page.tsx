@@ -1,13 +1,16 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Thermometer, Droplets, Eye, Gauge, Compass, Sunrise } from 'lucide-react';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Thermometer, Droplets, Eye, Gauge, Compass, Sunrise, Clock, BarChart } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { getWeatherImage } from '@/ai/flows/get-weather-image';
 import { cn } from '@/lib/utils';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 
 const weatherIcons: { [key: string]: React.ReactNode } = {
   'Clear': <Sun className="w-16 h-16 text-yellow-300" />,
@@ -17,12 +20,13 @@ const weatherIcons: { [key: string]: React.ReactNode } = {
   'Wind': <Wind className="w-16 h-16 text-gray-400" />,
 };
 
-const getIcon = (condition: string) => {
-    if (condition.includes('Clear')) return weatherIcons['Clear'];
-    if (condition.includes('Cloud')) return weatherIcons['Clouds'];
-    if (condition.includes('Rain')) return weatherIcons['Rain'];
-    if (condition.includes('Snow')) return weatherIcons['Snow'];
-    return <Sun className="w-16 h-16 text-yellow-300" />;
+const getIcon = (condition: string, className = "w-16 h-16") => {
+    const iconProps = { className };
+    if (condition.includes('Clear')) return <Sun {...iconProps} />;
+    if (condition.includes('Cloud')) return <Cloud {...iconProps} />;
+    if (condition.includes('Rain')) return <CloudRain {...iconProps} />;
+    if (condition.includes('Snow')) return <CloudSnow {...iconProps} />;
+    return <Sun {...iconProps} />;
 }
 
 export function WeatherPage() {
@@ -162,6 +166,35 @@ export function WeatherPage() {
                 </CardContent>
               </GlassmorphismCard>
 
+              <GlassmorphismCard>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-white">
+                    <Clock />
+                    Hourly Forecast
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Carousel opts={{
+                    align: 'start',
+                    dragFree: true,
+                  }}>
+                    <CarouselContent className="-ml-2">
+                      {weather.hourly.map((hour, index) => (
+                        <CarouselItem key={index} className="pl-2 basis-1/5 md:basis-1/8 lg:basis-1/10">
+                          <div className="flex flex-col items-center p-2 text-center bg-white/10 rounded-lg">
+                            <p className="text-sm font-semibold text-white">{hour.time}</p>
+                            <div className="my-1 scale-50">{getIcon(hour.condition, 'w-12 h-12')}</div>
+                            <p className="text-lg font-bold text-white">{hour.temperature}°C</p>
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    <CarouselPrevious className="text-white hidden sm:flex" />
+                    <CarouselNext className="text-white hidden sm:flex" />
+                  </Carousel>
+                </CardContent>
+              </GlassmorphismCard>
+
 
               <GlassmorphismCard>
                 <CardHeader>
@@ -177,17 +210,40 @@ export function WeatherPage() {
 
               <GlassmorphismCard>
                  <CardHeader>
-                  <CardTitle className="text-white">7-Day Forecast</CardTitle>
+                  <CardTitle className="flex items-center gap-2 text-white">
+                    <BarChart />
+                    7-Day Forecast
+                    </CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4 text-center">
-                  {weather.forecast.map((day, index) => (
-                    <div key={index} className="flex flex-col items-center p-4 bg-white/10 rounded-lg">
-                      <p className="font-semibold text-white">{day.day}</p>
-                      <div className="my-2 scale-75">{getIcon(day.condition)}</div>
-                      <p className="text-xl font-bold text-white">{day.temperature}°C</p>
-                      <p className="text-xs text-gray-300">{day.condition}</p>
-                    </div>
-                  ))}
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-2 gap-2 text-center">
+                    {weather.forecast.map((day, index) => (
+                      <div key={index} className="flex flex-col items-center p-2 bg-white/10 rounded-lg">
+                        <p className="font-semibold text-white">{day.day.substring(0,3)}</p>
+                        <div className="my-1 scale-75">{getIcon(day.condition, 'w-10 h-10')}</div>
+                        <p className="text-lg font-bold text-white">{day.temperature}°C</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="h-64">
+                    <ChartContainer config={{}} className='text-white'>
+                      <ResponsiveContainer width="100%" height="100%">
+                          <AreaChart data={weather.forecast} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                              <defs>
+                                  <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
+                                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                                  </linearGradient>
+                              </defs>
+                              <XAxis dataKey="day" stroke="hsl(var(--foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => value.substring(0, 3)} />
+                              <YAxis stroke="hsl(var(--foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°C`} />
+                              <CartesianGrid strokeDasharray="3 3" stroke='hsl(var(--border))' />
+                              <Tooltip content={<ChartTooltipContent className='bg-background/80' />} />
+                              <Area type="monotone" dataKey="temperature" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorTemp)" />
+                          </AreaChart>
+                      </ResponsiveContainer>
+                    </ChartContainer>
+                  </div>
                 </CardContent>
               </GlassmorphismCard>
             </div>

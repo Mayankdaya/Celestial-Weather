@@ -37,6 +37,13 @@ const WeatherDataSchema = z.object({
       condition: z.string().describe('Predicted condition (e.g., Clear, Clouds, Rain, Snow).'),
     })
   ).length(7).describe('A 7-day weather forecast.'),
+  hourly: z.array(
+    z.object({
+      time: z.string().describe('The time for the forecast (e.g., 3:00 PM).'),
+      temperature: z.number().describe('Predicted temperature in Celsius.'),
+      condition: z.string().describe('Predicted condition (e.g., Clear, Clouds, Rain, Snow).'),
+    })
+  ).length(24).describe('A 24-hour forecast, one for each hour.'),
 });
 export type WeatherData = z.infer<typeof WeatherDataSchema>;
 
@@ -49,14 +56,15 @@ const prompt = ai.definePrompt({
     name: 'getWeatherPrompt',
     input: { schema: GetWeatherInputSchema },
     output: { schema: WeatherDataSchema },
-    prompt: `You are a weather API. Given a city, provide the current weather and a 7-day forecast.
+    prompt: `You are a weather API. Given a city, provide the current weather, a 7-day forecast, and a 24-hour hourly forecast.
     
     Provide detailed current conditions including: temperature, condition, humidity, wind speed, wind direction, AQI, "feels like" temperature, UV Index, visibility, and pressure.
     Also provide a suggestion for what to wear based on the current weather.
 
     City: {{{city}}}
 
-    For the forecast, provide it for the next 7 days, starting with tomorrow. Use realistic weather conditions and temperatures for the given city.
+    For the 7-day forecast, provide it for the next 7 days, starting with tomorrow. Use realistic weather conditions and temperatures for the given city.
+    For the 24-hour forecast, provide it for the next 24 hours, starting from the next hour.
     `,
 });
 
