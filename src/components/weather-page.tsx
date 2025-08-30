@@ -65,7 +65,7 @@ export function WeatherPage() {
   );
 
   return (
-    <div 
+    <div
       className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8 bg-cover bg-center transition-all duration-500"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'linear-gradient(to bottom right, #1e3a8a, #4c1d95, #1e293b)',
