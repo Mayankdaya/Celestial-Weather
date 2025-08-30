@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'CollabCode - Real-Time Collaborative Code Editor',
-  description: 'Code together, from anywhere. A full-stack web application that allows multiple developers to edit code in real-time within a shared document.',
+  title: 'Weather App',
+  description: 'A beautiful weather app to get the current weather and forecast for any city.',
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased bg-background">
         {children}
         <Toaster />
       </body>
