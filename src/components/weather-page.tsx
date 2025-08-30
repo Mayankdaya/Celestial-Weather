@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Thermometer } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Thermometer, Droplets, Eye, Gauge, Compass, Sunrise } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { getWeatherImage } from '@/ai/flows/get-weather-image';
 import { cn } from '@/lib/utils';
@@ -72,6 +72,7 @@ export function WeatherPage() {
       className="flex flex-col items-center min-h-screen p-4 sm:p-6 md:p-8 bg-cover bg-center transition-all duration-500"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'linear-gradient(to bottom right, #1e3a8a, #4c1d95, #1e293b)',
+        backgroundAttachment: 'fixed',
       }}
     >
       <div className="absolute inset-0 bg-black/30 z-0" />
@@ -117,22 +118,50 @@ export function WeatherPage() {
                       <p className="text-lg text-gray-200">{weather.current.condition}</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm text-gray-200">
-                    <div className="flex items-center gap-2">
-                      <Thermometer className="w-5 h-5 text-gray-300" />
-                      <span>Humidity: {weather.current.humidity}%</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Wind className="w-5 h-5 text-gray-300" />
-                      <span>Wind: {weather.current.windSpeed} km/h</span>
-                    </div>
-                    <div className="flex items-center gap-2 col-span-2">
-                      <span className="text-gray-300">AQI:</span>
-                      <span className={getAqiColor(weather.current.aqi)}>{weather.current.aqi}</span>
-                    </div>
+                  <div className="text-lg text-gray-200">
+                    Feels like {weather.current.feelsLike}°C
                   </div>
                 </CardContent>
               </GlassmorphismCard>
+              
+              <GlassmorphismCard>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-white">
+                    Current Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4 text-gray-200">
+                  <div className="flex items-center gap-2">
+                    <Droplets className="w-5 h-5 text-gray-300" />
+                    <span>Humidity: {weather.current.humidity}%</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Wind className="w-5 h-5 text-gray-300" />
+                    <span>Wind: {weather.current.windSpeed} km/h</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Compass className="w-5 h-5 text-gray-300" />
+                    <span>Direction: {weather.current.windDirection}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Sunrise className="w-5 h-5 text-gray-300" />
+                     <span>UV Index: {weather.current.uvIndex}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Eye className="w-5 h-5 text-gray-300" />
+                    <span>Visibility: {weather.current.visibility} km</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Gauge className="w-5 h-5 text-gray-300" />
+                    <span>Pressure: {weather.current.pressure} hPa</span>
+                  </div>
+                  <div className="flex items-center gap-2 col-span-full">
+                    <span className="text-gray-300">AQI:</span>
+                    <span className={getAqiColor(weather.current.aqi)}>{weather.current.aqi}</span>
+                  </div>
+                </CardContent>
+              </GlassmorphismCard>
+
 
               <GlassmorphismCard>
                 <CardHeader>
@@ -148,9 +177,9 @@ export function WeatherPage() {
 
               <GlassmorphismCard>
                  <CardHeader>
-                  <CardTitle className="text-white">5-Day Forecast</CardTitle>
+                  <CardTitle className="text-white">7-Day Forecast</CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-center">
+                <CardContent className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4 text-center">
                   {weather.forecast.map((day, index) => (
                     <div key={index} className="flex flex-col items-center p-4 bg-white/10 rounded-lg">
                       <p className="font-semibold text-white">{day.day}</p>

@@ -32,8 +32,8 @@ const getWeatherImageFlow = ai.defineFlow(
         outputSchema: GetWeatherImageOutputSchema,
     },
     async (input) => {
-        // Using a placeholder image service to avoid API billing issues.
-        const imageUrl = `https://picsum.photos/1280/720?random=${Date.now()}`;
+        // Using a placeholder image service to avoid API billing issues and provide consistent images.
+        const imageUrl = `https://picsum.photos/seed/${input.city}/1280/720`;
         return { imageUrl };
     }
 );
