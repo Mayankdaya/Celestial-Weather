@@ -22,6 +22,8 @@ const WeatherDataSchema = z.object({
     condition: z.string().describe('e.g., Clear, Clouds, Rain, Snow.'),
     humidity: z.number().describe('Humidity in percent.'),
     windSpeed: z.number().describe('Wind speed in km/h.'),
+    aqi: z.number().describe('Air Quality Index.'),
+    outfitSuggestion: z.string().describe('A suggestion for what to wear based on the weather.'),
   }),
   forecast: z.array(
     z.object({
@@ -44,6 +46,8 @@ const prompt = ai.definePrompt({
     output: { schema: WeatherDataSchema },
     prompt: `You are a weather API. Given a city, provide the current weather and a 5-day forecast.
     
+    Also provide a suggestion for what to wear based on the current weather and a realistic Air Quality Index (AQI).
+
     City: {{{city}}}
 
     For the forecast, provide it for the next 5 days, starting with tomorrow. Use realistic weather conditions and temperatures for the given city.

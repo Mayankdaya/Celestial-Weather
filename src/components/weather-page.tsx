@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2 } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Thermometer } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 
 const weatherIcons: { [key: string]: React.ReactNode } = {
@@ -43,6 +43,15 @@ export function WeatherPage() {
     }
   };
 
+  const getAqiColor = (aqi: number) => {
+    if (aqi <= 50) return 'text-green-500';
+    if (aqi <= 100) return 'text-yellow-500';
+    if (aqi <= 150) return 'text-orange-500';
+    if (aqi <= 200) return 'text-red-500';
+    if (aqi <= 300) return 'text-purple-500';
+    return 'text-rose-700';
+  }
+
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 md:p-8">
       <div className="w-full max-w-4xl">
@@ -78,7 +87,7 @@ export function WeatherPage() {
                 <CardHeader>
                   <CardTitle className="text-2xl">{weather.current.city}</CardTitle>
                 </CardHeader>
-                <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                   <div className="flex items-center gap-4">
                     {getIcon(weather.current.condition)}
                     <div>
@@ -86,10 +95,32 @@ export function WeatherPage() {
                       <p className="text-lg text-muted-foreground">{weather.current.condition}</p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p>Humidity: {weather.current.humidity}%</p>
-                    <p>Wind: {weather.current.windSpeed} km/h</p>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Thermometer className="w-5 h-5 text-muted-foreground" />
+                      <span>Humidity: {weather.current.humidity}%</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Wind className="w-5 h-5 text-muted-foreground" />
+                      <span>Wind: {weather.current.windSpeed} km/h</span>
+                    </div>
+                    <div className="flex items-center gap-2 col-span-2">
+                      <span className="text-muted-foreground">AQI:</span>
+                      <span className={getAqiColor(weather.current.aqi)}>{weather.current.aqi}</span>
+                    </div>
                   </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Shirt />
+                    Outfit Suggestion
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg">{weather.current.outfitSuggestion}</p>
                 </CardContent>
               </Card>
 
