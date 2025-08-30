@@ -200,7 +200,7 @@ export function WeatherPage() {
                       <BarChart />
                       7-Day Forecast
                       </CardTitle>
-                  </Header>
+                  </CardHeader>
                   <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="grid grid-cols-4 lg:grid-cols-7 md:col-span-2 gap-2 text-center">
                       {weather.forecast.map((day, index) => (
@@ -255,3 +255,5 @@ export function WeatherPage() {
     </div>
   );
 }
+
+  
