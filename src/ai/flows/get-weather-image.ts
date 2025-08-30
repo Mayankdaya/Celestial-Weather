@@ -32,11 +32,8 @@ const getWeatherImageFlow = ai.defineFlow(
         outputSchema: GetWeatherImageOutputSchema,
     },
     async (input) => {
-        const { media } = await ai.generate({
-            model: 'googleai/imagen-4.0-fast-generate-001',
-            prompt: `A beautiful, photorealistic, cinematic shot of ${input.city} during ${input.condition} weather.`,
-        });
-        
-        return { imageUrl: media.url! };
+        // Using a placeholder image service to avoid API billing issues.
+        const imageUrl = `https://picsum.photos/1280/720?random=${Date.now()}`;
+        return { imageUrl };
     }
 );
