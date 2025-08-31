@@ -68,7 +68,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/20 text-gray-800 border border-white/30 backdrop-blur-xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/40', className)}>
+    <Card className={cn('bg-white/15 text-gray-800 border border-white/20 backdrop-blur-2xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/30', className)}>
       {children}
     </Card>
   );
@@ -84,7 +84,7 @@ export function WeatherPage() {
       >
         <div className="absolute inset-0 bg-black/5 z-0" />
         
-        <Sidebar collapsible='icon' className='border-r border-black/10 bg-white/50 backdrop-blur-xl'>
+        <Sidebar collapsible='icon' className='border-r border-black/10 bg-white/30 backdrop-blur-2xl'>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem className="p-2">
