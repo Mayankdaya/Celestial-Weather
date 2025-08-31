@@ -1,18 +1,20 @@
 
+
 'use client';
 
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer, Bike, Mountain, Leaf } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer, Bike, Mountain, Leaf, Home } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import Link from 'next/link';
 
-export function WeatherPage() {
+export default function WeatherPage() {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -78,6 +80,11 @@ export function WeatherPage() {
     <main className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-6xl space-y-6">
         <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" asChild>
+                <Link href="/">
+                    <Home />
+                </Link>
+            </Button>
             <h1 className="text-2xl font-bold text-white">Weather Dashboard</h1>
             <div className="relative w-full max-w-xs">
               <Input
