@@ -2,11 +2,11 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama, Leaf, Trees, WindIcon, Flower } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
@@ -345,7 +345,7 @@ export function WeatherPage() {
                 </GlassmorphismCard>
                 
                 {/* Sunrise & Sunset */}
-                <GlassmorphismCard className='md:col-span-2 xl:col-span-1 text-foreground'>
+                <GlassmorphismCard className='md:col-span-2 xl:col-span-2 text-foreground'>
                   <CardContent className='pt-6 flex items-center justify-around'>
                     <div className="flex flex-col items-center gap-1">
                       <Sunrise className="w-8 h-8 text-yellow-400" />
@@ -360,66 +360,30 @@ export function WeatherPage() {
                   </CardContent>
                 </GlassmorphismCard>
                 
-                 {/* Hourly Forecast Chart */}
-                 <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
+                {/* Hourly Forecast */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-2">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
                       <Clock />
                       Hourly Forecast
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="h-56 sm:h-64">
-                     <ChartContainer
-                        config={{
-                          temperature: {
-                            label: "Temperature",
-                            color: "hsl(var(--primary))",
-                          },
-                        }}
-                      >
-                        <LineChart
-                          data={weather.hourly}
-                          margin={{
-                            top: 5,
-                            right: 20,
-                            left: -10,
-                            bottom: 5,
-                          }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" stroke='hsla(var(--border) / 0.2)' />
-                          <XAxis
-                            dataKey="time"
-                            tickFormatter={(value, index) => index % 3 === 0 ? value : ''}
-                            stroke="hsl(var(--muted-foreground))"
-                            fontSize={12}
-                            tickLine={false}
-                            axisLine={false}
-                          />
-                          <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
-                          <Tooltip
-                            content={
-                              <ChartTooltipContent
-                                indicator="dot"
-                                formatter={(value) => `${value}°`}
-                              />
-                            }
-                            contentStyle={{
-                              backgroundColor: 'hsla(var(--background) / 0.8)',
-                              borderColor: 'hsla(var(--border) / 0.5)',
-                              color: 'hsl(var(--foreground))',
-                              borderRadius: '0.75rem'
-                            }}
-                            cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
-                          />
-                          <Line
-                            dataKey="temperature"
-                            type="monotone"
-                            stroke="hsl(var(--primary))"
-                            strokeWidth={2}
-                            dot={false}
-                          />
-                        </LineChart>
-                      </ChartContainer>
+                  <CardContent>
+                    <Carousel opts={{ align: "start" }} className="w-full">
+                      <CarouselContent className="-ml-2">
+                        {weather.hourly.map((hour, index) => (
+                          <CarouselItem key={index} className="basis-1/4 sm:basis-1/5 md:basis-1/4 lg:basis-1/5 xl:basis-1/4 pl-2">
+                            <div className="flex flex-col items-center text-center p-2 bg-black/10 dark:bg-white/10 rounded-lg h-full justify-between">
+                              <p className="text-sm font-medium">{hour.time}</p>
+                              <div className="my-1">{getIcon(hour.condition, 'w-8 h-8')}</div>
+                              <p className="text-base font-bold">{hour.temperature}°</p>
+                            </div>
+                          </CarouselItem>
+                        ))}
+                      </CarouselContent>
+                      <CarouselPrevious className='-left-4 text-foreground bg-white/30 hover:bg-white/50 border-white/40' />
+                      <CarouselNext className='-right-4 text-foreground bg-white/30 hover:bg-white/50 border-white/40' />
+                    </Carousel>
                   </CardContent>
                 </GlassmorphismCard>
                 
@@ -486,5 +450,3 @@ export function WeatherPage() {
     </SidebarProvider>
   );
 }
-
-    
