@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
 
     For the 5-day forecast, provide it for the next 5 days, starting with tomorrow. Use realistic weather conditions, temperatures, and chance of rain for the given city. The date should be formatted like 'Aug 08'.
 
-    For the hourly forecast, provide it for the next 7 hours, starting from the current hour. The time should be formatted like '3PM', '4PM', etc.
+    For the hourly forecast, provide it for the next 7 hours, starting from the current hour. The time should be formatted like '3PM', '4PM', etc. Also include an icon for each hour.
     
     For air quality, provide the AQI value and a descriptive category (e.g., 'Good', 'Moderate').
     `,
@@ -69,7 +69,7 @@ const getWeatherFlow = ai.defineFlow(
                     date: 'N/A',
                     temperature: 0,
                     condition: 'Error',
-                    iconUrl: '',
+                    iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png',
                     humidity: 0,
                     windSpeed: 0,
                     windDirection: 'N/A',
@@ -80,8 +80,8 @@ const getWeatherFlow = ai.defineFlow(
                     sunrise: 'N/A',
                     sunset: 'N/A',
                 },
-                forecast: Array(5).fill({ day: 'N/A', temperature: 0, condition: 'Error', iconUrl: '', chanceOfRain: 0 }),
-                hourly: Array(7).fill({ time: 'N/A', temperature: 0, condition: 'Error', iconUrl: '' }),
+                forecast: Array(5).fill({ day: 'N/A', temperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png', chanceOfRain: 0 }),
+                hourly: Array(7).fill({ time: 'N/A', temperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png' }),
                 airQuality: { aqi: 0, category: 'Error' },
             };
         }
