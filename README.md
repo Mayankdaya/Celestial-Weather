@@ -6,6 +6,46 @@
 
 AI-powered weather application delivering real-time meteorological data with intelligent activity recommendations through a premium glassmorphism interface.
 
+## 🌟 Featured Technologies
+
+<div align="center">
+
+### **Core Framework & Libraries**
+<p align="center">
+<a href="https://nextjs.org/" target="_blank" rel="noreferrer"> 
+  <img src="https://cdn.worldvectorlogo.com/logos/nextjs-2.svg" alt="nextjs" width="50" height="50"/> 
+</a>
+<a href="https://reactjs.org/" target="_blank" rel="noreferrer"> 
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="50" height="50"/> 
+</a>
+<a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> 
+  <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="50" height="50"/> 
+</a>
+</p>
+
+### **AI & Data Processing**
+<p align="center">
+<a href="https://ai.google.dev/" target="_blank" rel="noreferrer"> 
+  <img src="https://www.gstatic.com/aihub/aihub_favicon.png" alt="google-ai" width="50" height="50"/> 
+</a>
+<a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer"> 
+  <img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/pandas/pandas-original.svg" alt="pandas" width="50" height="50"/> 
+</a>
+</p>
+
+
+### **Deployment & Infrastructure**
+<p align="center">
+<a href="https://vercel.com/" target="_blank" rel="noreferrer"> 
+  <img src="https://assets.vercel.com/image/upload/q_auto/front/favicon/vercel/57x57.png" alt="vercel" width="50" height="50"/> 
+</a>
+<a href="https://www.docker.com/" target="_blank" rel="noreferrer"> 
+  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="50" height="50"/> 
+</a>
+</p>
+
+</div>
+
 ## Features
 
 - **Real-time Weather Data** - Current conditions, 5-day forecast, hourly trends
