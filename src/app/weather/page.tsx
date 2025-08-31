@@ -15,6 +15,7 @@ import { ChartConfig, ChartContainer, ChartTooltipContent } from '@/components/u
 import Link from 'next/link';
 import { SunriseIcon } from '@/components/icons/sunrise-icon';
 import { SunsetIcon } from '@/components/icons/sunset-icon';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 export default function WeatherPage() {
   const [city, setCity] = useState('');
@@ -82,13 +83,17 @@ export default function WeatherPage() {
     <div className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-6xl space-y-6">
         <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" asChild>
-                <Link href="/">
-                    <Home />
-                </Link>
-            </Button>
-            <h1 className="text-2xl font-bold text-white">Celestial Weather</h1>
-            <div className="relative w-full max-w-xs">
+            <div className="flex w-full sm:w-auto justify-between items-center">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" asChild>
+                    <Link href="/">
+                        <Home />
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold text-white sm:hidden">Celestial Weather</h1>
+                <div className="sm:hidden w-10 h-10"></div>
+            </div>
+            <h1 className="text-2xl font-bold text-white hidden sm:block">Celestial Weather</h1>
+            <div className="relative w-full sm:max-w-xs">
               <Input
                 type="text"
                 placeholder="Search for a city..."
@@ -112,7 +117,7 @@ export default function WeatherPage() {
             )}
             
             { error && !isPending && (
-              <GlassmorphismCard className="h-[600px] flex flex-col items-center justify-center text-center">
+              <GlassmorphismCard className="h-[600px] flex flex-col items-center justify-center text-center p-4">
                 <CloudRain className="h-16 w-16 text-gray-300" />
                 <p className="mt-4 font-medium text-white">{error}</p>
               </GlassmorphismCard>
@@ -129,19 +134,19 @@ export default function WeatherPage() {
                             <h2 className="text-3xl font-bold">{weather.current.city}</h2>
                           </div>
                           <p className="text-lg text-gray-300">{weather.current.date}</p>
-                          <div className="flex items-center gap-4 mt-4">
+                          <div className="flex items-center gap-2 sm:gap-4 mt-4">
                               {weather.current.iconUrl && (
                                 <Image 
                                   alt={weather.current.condition} 
                                   src={weather.current.iconUrl} 
                                   width={100} 
                                   height={100} 
-                                  className={cn("w-24 h-24", (weather.current.condition.includes('Sun') || weather.current.condition.includes('Clear')) && 'drop-shadow-[0_0_15px_rgba(251,191,36,0.7)]')}
+                                  className={cn("w-20 h-20 sm:w-24 sm:h-24", (weather.current.condition.includes('Sun') || weather.current.condition.includes('Clear')) && 'drop-shadow-[0_0_15px_rgba(251,191,36,0.7)]')}
                                 />
                               )}
                               <div>
-                                  <p className="text-7xl font-bold tracking-tighter">{weather.current.temperature}°</p>
-                                  <p className="text-2xl font-medium text-gray-200">{weather.current.condition}</p>
+                                  <p className="text-6xl sm:text-7xl font-bold tracking-tighter">{weather.current.temperature}°</p>
+                                  <p className="text-xl sm:text-2xl font-medium text-gray-200">{weather.current.condition}</p>
                               </div>
                           </div>
                       </div>
@@ -158,7 +163,7 @@ export default function WeatherPage() {
                 <GlassmorphismCard className="p-6">
                     <section>
                         <h3 className="text-lg font-semibold mb-4 text-white">HOURLY FORECAST</h3>
-                        <div className="h-[150px]">
+                        <div className="h-[150px] hidden sm:block">
                           <ChartContainer config={chartConfig} className="h-full w-full">
                               <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
@@ -175,35 +180,40 @@ export default function WeatherPage() {
                               </LineChart>
                           </ChartContainer>
                         </div>
-                        <div className="grid grid-cols-4 sm:grid-cols-7 gap-2 mt-4">
-                          {weather.hourly.map((hour, index) => (
-                            <div key={index} className="flex flex-col items-center justify-center p-2 bg-black/20 rounded-lg">
-                              <Image src={hour.iconUrl} alt={hour.condition} width={40} height={40} />
-                              <p className="text-xs text-gray-300 mt-1">{hour.condition}</p>
+                        <ScrollArea className="w-full sm:hidden">
+                            <div className="flex space-x-4 pb-4">
+                                {weather.hourly.map((hour, index) => (
+                                    <div key={index} className="flex flex-col items-center justify-center p-2 bg-black/20 rounded-lg min-w-[100px]">
+                                        <p className="font-semibold">{hour.time}</p>
+                                        <Image src={hour.iconUrl} alt={hour.condition} width={40} height={40} />
+                                        <p className="text-lg font-bold">{hour.temperature}°</p>
+                                        <p className="text-xs text-gray-300 mt-1">{hour.condition}</p>
+                                    </div>
+                                ))}
                             </div>
-                          ))}
-                        </div>
+                            <ScrollBar orientation="horizontal" />
+                        </ScrollArea>
                     </section>
                 </GlassmorphismCard>
 
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                     {/* 5-Day Forecast */}
-                    <section className="md:col-span-3">
+                    <section className="lg:col-span-3">
                          <GlassmorphismCard className="p-6 h-full">
                             <h3 className="text-lg font-semibold mb-2 text-white">5-DAY FORECAST</h3>
                              <div className="space-y-2">
                                {weather.forecast.map((day, index) => (
                                  <div key={index} className="flex flex-wrap items-center justify-between p-3 bg-black/20 border-white/10 rounded-lg gap-2">
-                                   <p className="font-semibold w-full sm:w-1/4">{day.day}</p>
-                                   <div className="flex items-center gap-2 w-1/2 sm:w-1/4">
+                                   <p className="font-semibold w-full sm:w-auto">{day.day}</p>
+                                   <div className="flex items-center gap-2">
                                        {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={32} height={32} />}
                                        <p className="text-sm text-gray-300 hidden sm:block">{day.condition}</p>
                                    </div>
-                                   <div className="flex items-center gap-1 text-sm text-gray-300 w-1/2 sm:w-1/4 justify-start sm:justify-center">
+                                   <div className="flex items-center gap-1 text-sm text-gray-300">
                                        <CloudRain className="w-4 h-4"/>
                                        <span>{day.chanceOfRain}%</span>
                                    </div>
-                                   <p className="font-bold text-lg w-full sm:w-1/4 text-left sm:text-right">{day.minTemperature}° / {day.temperature}°</p>
+                                   <p className="font-bold text-lg w-full sm:w-auto text-left sm:text-right">{day.minTemperature}° / {day.temperature}°</p>
                                  </div>
                                ))}
                              </div>
@@ -211,7 +221,7 @@ export default function WeatherPage() {
                     </section>
                     
                     {/* More Details */}
-                    <section className="md:col-span-2 space-y-4">
+                    <section className="lg:col-span-2 space-y-4">
                        <GlassmorphismCard className="p-4">
                             <h3 className="text-lg font-semibold mb-2 text-white">SUGGESTIONS</h3>
                             <div className="space-y-4">

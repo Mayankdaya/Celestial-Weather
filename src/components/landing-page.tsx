@@ -17,7 +17,7 @@ export function LandingPage() {
     return (
         <div className="space-y-12">
             <GlassmorphismCard className="p-8 md:p-12 w-full max-w-4xl text-center">
-                <div className="flex justify-center items-center gap-4 mb-4">
+                <div className="flex justify-center items-center gap-4 mb-4 flex-wrap">
                     <Sun className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)] animate-spin-slow hover:pause" />
                     <CloudLightning className="w-10 h-10 text-white animate-wiggle hover:pause" />
                     <Gauge className="w-10 h-10 text-blue-300 animate-float hover:pause" />
@@ -28,7 +28,7 @@ export function LandingPage() {
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
                     Celestial Weather
                 </h1>
-                <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+                <p className="mt-4 text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                     Get real-time weather data, 5-day forecasts, air quality, and personalized suggestions with our beautifully designed, AI-powered weather application.
                 </p>
                 <div className="mt-8">
