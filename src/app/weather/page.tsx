@@ -83,16 +83,16 @@ export default function WeatherPage() {
     <div className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-6xl space-y-6">
         <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex w-full sm:w-auto justify-between items-center">
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" asChild>
-                    <Link href="/">
-                        <Home />
-                    </Link>
-                </Button>
-                <h1 className="text-2xl font-bold text-white sm:hidden">Celestial Weather</h1>
-                <div className="sm:hidden w-10 h-10"></div>
-            </div>
+          <div className="flex items-center gap-4 w-full sm:w-auto">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 flex-shrink-0" asChild>
+                <Link href="/">
+                    <Home />
+                </Link>
+            </Button>
             <h1 className="text-2xl font-bold text-white hidden sm:block">Celestial Weather</h1>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto sm:justify-end">
+            <h1 className="text-2xl font-bold text-white sm:hidden -mt-14">Celestial Weather</h1>
             <div className="relative w-full sm:max-w-xs">
               <Input
                 type="text"
@@ -106,6 +106,7 @@ export default function WeatherPage() {
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
               </Button>
             </div>
+          </div>
         </header>
         
         <div className="w-full">
@@ -164,21 +165,23 @@ export default function WeatherPage() {
                     <section>
                         <h3 className="text-lg font-semibold mb-4 text-white">HOURLY FORECAST</h3>
                         <div className="h-[150px] hidden sm:block">
-                          <ChartContainer config={chartConfig} className="h-full w-full">
-                              <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-                                  <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.4)" fontSize={12} tickLine={false} axisLine={false} />
-                                  <YAxis stroke="rgba(255, 255, 255, 0.4)" fontSize={12} unit="°" tickLine={false} axisLine={false} />
-                                  <Tooltip 
-                                      content={<ChartTooltipContent />} 
-                                      cursor={{fill: 'rgba(255,255,255,0.1)'}}
-                                      contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px'}}
-                                  />
-                                  <Legend />
-                                  <Line type="monotone" dataKey="temperature" stroke="var(--color-temperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-temperature)'}} activeDot={{r:6}} name="Temp"/>
-                                  <Line type="monotone" dataKey="apparentTemperature" stroke="var(--color-apparentTemperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-apparentTemperature)'}} activeDot={{r:6}} name="Feels Like"/>
-                              </LineChart>
-                          </ChartContainer>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <ChartContainer config={chartConfig} className="h-full w-full">
+                                <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+                                    <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.4)" fontSize={12} tickLine={false} axisLine={false} />
+                                    <YAxis stroke="rgba(255, 255, 255, 0.4)" fontSize={12} unit="°" tickLine={false} axisLine={false} />
+                                    <Tooltip 
+                                        content={<ChartTooltipContent />} 
+                                        cursor={{fill: 'rgba(255,255,255,0.1)'}}
+                                        contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px'}}
+                                    />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="temperature" stroke="var(--color-temperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-temperature)'}} activeDot={{r:6}} name="Temp"/>
+                                    <Line type="monotone" dataKey="apparentTemperature" stroke="var(--color-apparentTemperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-apparentTemperature)'}} activeDot={{r:6}} name="Feels Like"/>
+                                </LineChart>
+                            </ChartContainer>
+                          </ResponsiveContainer>
                         </div>
                         <ScrollArea className="w-full sm:hidden">
                             <div className="flex space-x-4 pb-4">
@@ -204,7 +207,7 @@ export default function WeatherPage() {
                              <div className="space-y-2">
                                {weather.forecast.map((day, index) => (
                                  <div key={index} className="flex flex-wrap items-center justify-between p-3 bg-black/20 border-white/10 rounded-lg gap-2">
-                                   <p className="font-semibold w-full sm:w-auto">{day.day}</p>
+                                   <p className="font-semibold w-full sm:w-auto min-w-[80px]">{day.day}</p>
                                    <div className="flex items-center gap-2">
                                        {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={32} height={32} />}
                                        <p className="text-sm text-gray-300 hidden sm:block">{day.condition}</p>
@@ -221,7 +224,7 @@ export default function WeatherPage() {
                     </section>
                     
                     {/* More Details */}
-                    <section className="lg:col-span-2 space-y-4">
+                    <section className="lg:col-span-2 space-y-8">
                        <GlassmorphismCard className="p-4">
                             <h3 className="text-lg font-semibold mb-2 text-white">SUGGESTIONS</h3>
                             <div className="space-y-4">
@@ -246,7 +249,7 @@ export default function WeatherPage() {
                             </div>
                         </GlassmorphismCard>
                        
-                       <div className="space-y-4">
+                       <div className="space-y-8">
                           <GlassmorphismCard className="p-4">
                               <h3 className="text-lg font-semibold mb-2 text-white">ADDITIONAL DETAILS</h3>
                               <div className="grid grid-cols-2 gap-4">
