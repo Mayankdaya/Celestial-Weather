@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { ChartContainer } from '@/components/ui/chart';
 import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
-import { getWeatherImage } from '@/ai/flows/get-weather-image';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
@@ -28,23 +27,14 @@ const majorCities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Dubai', 
 export function WeatherPage() {
   const [city, setCity] = useState('New York');
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [backgroundImage, setBackgroundImage] = useState<string>('');
   const [isPending, startTransition] = useTransition();
 
   const handleSearch = (searchCity: string = city) => {
     if (!searchCity) return;
     startTransition(async () => {
       setWeather(null);
-      
-      const weatherPromise = getWeather({ city: searchCity });
-      const imagePromise = getWeatherImage({ city: searchCity, condition: 'weather' });
-
-      const [weatherResult, imageResult] = await Promise.all([weatherPromise, imagePromise]);
-      
+      const weatherResult = await getWeather({ city: searchCity });
       setWeather(weatherResult);
-      if (imageResult) {
-        setBackgroundImage(imageResult.imageUrl);
-      }
     });
   };
 
@@ -88,7 +78,7 @@ export function WeatherPage() {
       <div
         className="flex min-h-screen bg-cover bg-center transition-all duration-1000"
         style={{
-          backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'linear-gradient(to bottom right, #1e3a8a, #4c1d95, #1e293b)',
+          backgroundImage: 'linear-gradient(to bottom right, #1e3a8a, #4c1d95, #1e293b)',
           backgroundAttachment: 'fixed',
         }}
       >
@@ -142,7 +132,7 @@ export function WeatherPage() {
             <div className="flex items-center justify-center h-[calc(100vh-200px)] text-white">
                 <div className='text-center'>
                   <Loader2 className="h-12 w-12 animate-spin mx-auto" />
-                  <p className="mt-4 text-lg">Fetching weather and generating background...</p>
+                  <p className="mt-4 text-lg">Fetching weather...</p>
                 </div>
             </div>
           )}
