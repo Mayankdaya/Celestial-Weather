@@ -4,22 +4,13 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Cloud, CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Snowflake, Thermometer, Briefcase } from 'lucide-react';
+import { Cloud, CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Snowflake, Thermometer, Briefcase, Compass } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip as RechartsTooltip } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
-
-const getIcon = (condition: string, width = 64, height = 64) => {
-    const iconProps = { width, height, className: 'aspect-square' };
-    if (condition.toLowerCase().includes('cloud')) return <Cloud {...iconProps} />;
-    if (condition.toLowerCase().includes('rain')) return <CloudRain {...iconProps} />;
-    if (condition.toLowerCase().includes('snow')) return <Snowflake {...iconProps} />;
-    if (condition.toLowerCase().includes('clear') || condition.toLowerCase().includes('sunny')) return <Sun {...iconProps} />;
-    return <Sun {...iconProps} />;
-}
 
 export function WeatherPage() {
   const [city, setCity] = useState('');
@@ -53,7 +44,7 @@ export function WeatherPage() {
   };
   
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <div className={cn('bg-black/20 border border-white/20 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
+    <div className={cn('bg-black/20 border border-white/10 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
       {children}
     </div>
   );
@@ -91,14 +82,14 @@ export function WeatherPage() {
 
         { isPending && !weather && (
            <div className="flex flex-col items-center justify-center h-[600px]">
-            <Loader2 className="h-10 w-10 animate-spin" />
+            <Loader2 className="h-10 w-10 animate-spin text-white" />
            </div>
         )}
         
         { error && !isPending && (
           <div className="flex flex-col items-center justify-center h-[600px] text-center">
             <CloudRain className="h-16 w-16 text-gray-300" />
-            <p className="mt-4 font-medium">{error}</p>
+            <p className="mt-4 font-medium text-white">{error}</p>
           </div>
         )}
 
@@ -107,9 +98,7 @@ export function WeatherPage() {
             {/* Left Column */}
             <div className="md:col-span-1 space-y-6">
                 <div className="flex flex-col items-center text-center">
-                    <div className='w-40 h-40'>
-                        {getIcon(weather.current.condition, 160, 160)}
-                    </div>
+                    {weather.current.iconUrl && <Image alt={weather.current.condition} src={weather.current.iconUrl} width={160} height={160} className="w-40 h-40" />}
                     <p className="text-8xl font-bold tracking-tighter">{weather.current.temperature}°</p>
                     <p className="text-2xl font-medium text-gray-200">{weather.current.condition}</p>
                     <div className="flex items-center gap-2 mt-4">
@@ -125,8 +114,12 @@ export function WeatherPage() {
                   {weather.forecast.map((day, index) => (
                     <div key={index} className="flex flex-col items-center p-2 bg-black/20 border-white/10 rounded-2xl text-center">
                       <p className="text-xs font-semibold">{day.day}</p>
-                      <div className='my-1 w-10 h-10'>{getIcon(day.condition, 40, 40)}</div>
+                      {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={40} height={40} className="my-1 w-10 h-10" />}
                       <p className="font-bold text-base">{day.temperature}°</p>
+                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-1">
+                          <CloudRain className="w-3 h-3"/>
+                          <span>{day.chanceOfRain}%</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -134,7 +127,7 @@ export function WeatherPage() {
             {/* Right Column */}
             <div className="md:col-span-2 space-y-6">
                 <div>
-                    <h2 className="text-lg font-semibold mb-2">HOURLY FORECAST</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-white">HOURLY FORECAST</h2>
                     <Card className="bg-black/20 p-4 rounded-2xl border-white/10">
                       <ChartContainer config={{}} className="h-[150px] w-full">
                           <ResponsiveContainer width="100%" height="100%">
@@ -154,21 +147,25 @@ export function WeatherPage() {
                     </Card>
                 </div>
                 <div>
-                    <h2 className="text-lg font-semibold mb-2">MORE DETAILS</h2>
+                    <h2 className="text-lg font-semibold mb-2 text-white">MORE DETAILS</h2>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <InfoCard icon={<Thermometer />} title="Feels Like" value={`${weather.current.feelsLike}°C`} />
-                        <InfoCard icon={<Droplets />} title="Humidity" value={`${weather.current.humidity}%`} />
-                        <InfoCard icon={<Wind />} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
-                        <InfoCard icon={<Gauge />} title="Pressure" value={`${weather.current.pressure} hPa`} />
-                        <InfoCard icon={<Eye />} title="Visibility" value={`${weather.current.visibility} km`} />
-                        <InfoCard icon={<Sun />} title="UV Index" value={weather.current.uv.toString()} />
-                        <InfoCard icon={<Sunrise />} title="Sunrise" value={weather.current.sunrise} />
-                        <InfoCard icon={<Sunset />} title="Sunset" value={weather.current.sunset} />
+                        <InfoCard icon={<Thermometer className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°C`} />
+                        <InfoCard icon={<Droplets className="w-6 h-6"/>} title="Humidity" value={`${weather.current.humidity}%`} />
+                        <InfoCard icon={<Wind className="w-6 h-6"/>} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
+                        <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
+                        <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
+                        <InfoCard icon={<Eye className="w-6 h-6"/>} title="Visibility" value={`${weather.current.visibility} km`} />
+                        <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} />
+                        <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+
                     </div>
                 </div>
                  <div>
-                    <h2 className="text-lg font-semibold mb-2">AIR QUALITY</h2>
-                     <InfoCard icon={<Wind />} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+                    <h2 className="text-lg font-semibold mb-2 text-white">SUNRISE & SUNSET</h2>
+                     <div className="grid grid-cols-2 gap-4">
+                        <InfoCard icon={<Sunrise className="w-8 h-8"/>} title="Sunrise" value={weather.current.sunrise} />
+                        <InfoCard icon={<Sunset className="w-8 h-8"/>} title="Sunset" value={weather.current.sunset} />
+                    </div>
                 </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
 /**
  * @fileOverview Fetches weather data for a given city.
  * 
- * - getWeather - A function that fetches the current weather and a 3-day forecast.
+ * - getWeather - A function that fetches the current weather and a 5-day forecast.
  * - GetWeatherInput - The input type for the getWeather function.
  * - WeatherData - The return type for the getWeather function.
  */
@@ -27,14 +27,15 @@ const prompt = ai.definePrompt({
     name: 'getWeatherPrompt',
     input: { schema: GetWeatherInputSchema },
     output: { schema: WeatherDataSchema },
-    prompt: `You are a weather API. Given a city, provide the current weather, a 3-day forecast, hourly forecast, and air quality.
+    prompt: `You are a weather API. Given a city, provide the current weather, a 5-day forecast, hourly forecast, and air quality.
     
-    Provide detailed current conditions including: temperature, condition, humidity, wind speed in M/s, feels like temperature, pressure in hPa, visibility in km, UV index, sunrise time (e.g., '6:30 AM'), and sunset time (e.g., '7:45 PM').
+    Provide detailed current conditions including: temperature, condition, humidity, wind speed in M/s, wind direction, feels like temperature, pressure in hPa, visibility in km, UV index, sunrise time (e.g., '6:30 AM'), and sunset time (e.g., '7:45 PM').
     You must also provide the current date, formatted like 'Wed, 07 Aug'.
+    For all 'iconUrl' fields, you must use realistic weather condition image URLs from 'https://openweathermap.org/img/wn/'. For example: 'https://openweathermap.org/img/wn/01d@4x.png' for a clear day. Use the @4x version for high resolution.
     
     City: {{{city}}}
 
-    For the 3-day forecast, provide it for the next 3 days, starting with tomorrow. Use realistic weather conditions and temperatures for the given city. The date should be formatted like 'Aug 08'.
+    For the 5-day forecast, provide it for the next 5 days, starting with tomorrow. Use realistic weather conditions, temperatures, and chance of rain for the given city. The date should be formatted like 'Aug 08'.
 
     For the hourly forecast, provide it for the next 7 hours, starting from the current hour. The time should be formatted like '3PM', '4PM', etc.
     
@@ -68,8 +69,10 @@ const getWeatherFlow = ai.defineFlow(
                     date: 'N/A',
                     temperature: 0,
                     condition: 'Error',
+                    iconUrl: '',
                     humidity: 0,
                     windSpeed: 0,
+                    windDirection: 'N/A',
                     feelsLike: 0,
                     pressure: 0,
                     visibility: 0,
@@ -77,8 +80,8 @@ const getWeatherFlow = ai.defineFlow(
                     sunrise: 'N/A',
                     sunset: 'N/A',
                 },
-                forecast: Array(3).fill({ day: 'N/A', temperature: 0, condition: 'Error' }),
-                hourly: Array(7).fill({ time: 'N/A', temperature: 0, condition: 'Error' }),
+                forecast: Array(5).fill({ day: 'N/A', temperature: 0, condition: 'Error', iconUrl: '', chanceOfRain: 0 }),
+                hourly: Array(7).fill({ time: 'N/A', temperature: 0, condition: 'Error', iconUrl: '' }),
                 airQuality: { aqi: 0, category: 'Error' },
             };
         }

@@ -6,8 +6,10 @@ export const WeatherDataSchema = z.object({
     date: z.string().describe("Today's date, formatted like 'Wed, 07 Aug'."),
     temperature: z.number().describe('Temperature in Celsius.'),
     condition: z.string().describe('e.g., Clear, Clouds, Rain, Snow.'),
+    iconUrl: z.string().url().describe('A URL to an icon representing the current weather condition.'),
     humidity: z.number().describe('Humidity in percent.'),
     windSpeed: z.number().describe('Wind speed in M/s.'),
+    windDirection: z.string().describe('Wind direction (e.g., N, S, E, W, NE, SW).'),
     feelsLike: z.number().describe('"Feels like" temperature in Celsius.'),
     pressure: z.number().describe('Atmospheric pressure in hPa.'),
     visibility: z.number().describe('Visibility in kilometers.'),
@@ -20,6 +22,8 @@ export const WeatherDataSchema = z.object({
       day: z.string().describe("Day of the week and date, e.g., 'Aug 08'."),
       temperature: z.number().describe('Predicted temperature in Celsius.'),
       condition: z.string().describe('Predicted condition (e.g., Clear, Clouds, Rain, Snow).'),
+      iconUrl: z.string().url().describe('A URL to an icon representing the forecast condition.'),
+      chanceOfRain: z.number().describe('The chance of rain in percent for that day.'),
     })
   ).length(5).describe('A 5-day weather forecast.'),
   hourly: z.array(
@@ -27,6 +31,7 @@ export const WeatherDataSchema = z.object({
       time: z.string().describe("Hour of the day, e.g., '3PM', '4PM'."),
       temperature: z.number().describe('Predicted temperature in Celsius.'),
       condition: z.string().describe('Predicted condition.'),
+      iconUrl: z.string().url().describe('A URL to an icon representing the hourly condition.'),
     })
   ).length(7).describe('A 7-hour forecast.'),
   airQuality: z.object({
