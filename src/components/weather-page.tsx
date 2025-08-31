@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Input } from '@/components/ui/input';
@@ -42,6 +42,19 @@ export function WeatherPage() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isPending, startTransition] = useTransition();
   const [unit, setUnit] = useState<'C' | 'F'>('C');
+  const [time, setTime] = useState('');
+  const [date, setDate] = useState('');
+
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date();
+      setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setDate(now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+    };
+    updateDateTime();
+    const timerId = setInterval(updateDateTime, 1000);
+    return () => clearInterval(timerId);
+  }, []);
 
   const convertToF = (celsius: number) => Math.round((celsius * 9/5) + 32);
 
@@ -471,7 +484,10 @@ export function WeatherPage() {
             ) : (!weather && !isPending && (
               <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
                 <GlassmorphismCard className='p-8 max-w-md w-full'>
-                  <Sun className="h-20 w-20 mx-auto text-foreground" />
+                  <div className='mb-4'>
+                    <p className='text-5xl font-bold'>{time}</p>
+                    <p className='text-muted-foreground'>{date}</p>
+                  </div>
                   <p className="mt-4 text-base text-foreground">Welcome! Enter a city to get the forecast, or select one below.</p>
                   <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {majorCities.slice(0, 6).map((c) => (
