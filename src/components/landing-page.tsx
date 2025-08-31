@@ -21,6 +21,9 @@ export function LandingPage() {
                     <Sun className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)]" />
                     <CloudLightning className="w-10 h-10 text-white" />
                     <Gauge className="w-10 h-10 text-blue-300" />
+                    <Leaf className="w-10 h-10 text-green-300" />
+                    <BarChart className="w-10 h-10 text-purple-300" />
+                    <Smartphone className="w-10 h-10 text-gray-300" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
                     Celestial Weather
