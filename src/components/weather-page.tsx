@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useTransition, useEffect } from 'react';
@@ -9,7 +10,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip as RechartsTooltip } from 'recharts';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 const getIcon = (condition: string, width = 64, height = 64) => {
     const iconProps = { width, height, className: 'aspect-square' };
@@ -135,19 +136,21 @@ export function WeatherPage() {
                 <div>
                     <h2 className="text-lg font-semibold mb-2">HOURLY FORECAST</h2>
                     <Card className="bg-white/10 p-4 rounded-2xl">
-                        <ResponsiveContainer width="100%" height={150}>
-                            <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.2)" />
-                                <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.7)" fontSize={12} />
-                                <YAxis stroke="rgba(255, 255, 255, 0.7)" fontSize={12} unit="°" />
-                                <RechartsTooltip 
-                                    content={<ChartTooltipContent />} 
-                                    cursor={{fill: 'rgba(255,255,255,0.1)'}}
-                                    contentStyle={{backgroundColor: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '10px'}}
-                                />
-                                <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} dot={{r:4}} activeDot={{r:6}} name="Temp"/>
-                            </LineChart>
-                        </ResponsiveContainer>
+                        <ChartContainer config={{}} className="h-[150px] w-full">
+                          <ResponsiveContainer width="100%" height="100%">
+                              <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.2)" />
+                                  <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.7)" fontSize={12} />
+                                  <YAxis stroke="rgba(255, 255, 255, 0.7)" fontSize={12} unit="°" />
+                                  <RechartsTooltip 
+                                      content={<ChartTooltipContent />} 
+                                      cursor={{fill: 'rgba(255,255,255,0.1)'}}
+                                      contentStyle={{backgroundColor: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '10px'}}
+                                  />
+                                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} dot={{r:4}} activeDot={{r:6}} name="Temp"/>
+                              </LineChart>
+                          </ResponsiveContainer>
+                        </ChartContainer>
                     </Card>
                 </div>
                 <div>
