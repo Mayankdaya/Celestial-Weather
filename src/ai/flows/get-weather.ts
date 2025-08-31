@@ -87,7 +87,11 @@ const getWeatherFlow = ai.defineFlow(
                 },
                 forecast: Array(7).fill({ day: 'N/A', temperature: 0, condition: 'Error' }),
                 hourly: Array(24).fill({ time: 'N/A', temperature: 0, condition: 'Error' }),
-                activitySuggestions: [],
+                activitySuggestions: [
+                    { name: 'N/A', description: 'N/A', icon: 'AlertCircle' },
+                    { name: 'N/A', description: 'N/A', icon: 'AlertCircle' },
+                    { name: 'N/A', description: 'N/A', icon: 'AlertCircle' }
+                ],
                 pollen: {
                     grass: { level: 'N/A', value: 0 },
                     weed: { level: 'N/A', value: 0 },
