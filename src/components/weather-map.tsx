@@ -2,9 +2,11 @@
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import { Icon, Map } from 'leaflet';
+import { useEffect, useState } from 'react';
 
 const WeatherMap = ({ lat, lon }: { lat: number, lon: number }) => {
+  const [map, setMap] = useState<Map | null>(null);
 
   const customIcon = new Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -15,8 +17,19 @@ const WeatherMap = ({ lat, lon }: { lat: number, lon: number }) => {
     shadowSize: [41, 41]
   });
 
+  useEffect(() => {
+    if (map) {
+      map.setView([lat, lon], map.getZoom());
+    }
+  }, [lat, lon, map]);
+
   return (
-    <MapContainer center={[lat, lon]} zoom={7} style={{ height: '100%', width: '100%', borderRadius: '0.75rem' }}>
+    <MapContainer
+      center={[lat, lon]}
+      zoom={7}
+      style={{ height: '100%', width: '100%', borderRadius: '0.75rem' }}
+      whenCreated={setMap}
+    >
       <LayersControl position="topright">
         <LayersControl.BaseLayer checked name="Standard">
             <TileLayer
