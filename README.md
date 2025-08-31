@@ -5,6 +5,9 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
 AI-powered weather application delivering real-time meteorological data with intelligent activity recommendations through a premium glassmorphism interface.
+<img width="1853" height="878" alt="image" src="https://github.com/user-attachments/assets/c54f1ed1-adf7-4b11-a788-1f3f452be715" />
+
+
 
 ## 🌟 Featured Technologies
 
