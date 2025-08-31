@@ -113,372 +113,374 @@ export function WeatherPage() {
         </Sidebar>
 
         <main className="flex-1 p-2 sm:p-4 md:p-6 z-10 overflow-y-auto">
-          <header className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-              <div className="flex items-center gap-2">
-                <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">Weather Dashboard</h1>
-              </div>
-
-              <div className="relative flex w-full sm:max-w-xs">
-                <Input
-                  type="text"
-                  placeholder="Enter a city..."
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
-                />
-                <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
-                  {isPending ? <Loader2 className="animate-spin" /> : <Search />}
-                  <span className="ml-1 hidden xs:inline">Search</span>
-                </Button>
-              </div>
-          </header>
-
-          {(isPending && !weather) && (
-            <div className="flex items-center justify-center h-[calc(100vh-160px)] text-foreground">
-                <div className='text-center'>
-                  <Loader2 className="h-10 w-10 animate-spin mx-auto" />
-                  <p className="mt-4 text-md">Fetching weather...</p>
+          <div className="mx-auto w-full max-w-7xl">
+            <header className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+                <div className="flex items-center gap-2">
+                  <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
+                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">Weather Dashboard</h1>
                 </div>
-            </div>
-          )}
 
-          {weather ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500">
-              {/* Current Weather */}
-              <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
-                <CardHeader className="flex flex-row items-start justify-between pb-2">
-                  <div className='flex flex-col'>
-                    <CardTitle className="text-2xl sm:text-3xl">{weather.current.city}</CardTitle>
-                    <CardDescription className='text-base sm:text-lg text-muted-foreground'>{weather.current.condition}</CardDescription>
+                <div className="relative flex w-full sm:max-w-xs">
+                  <Input
+                    type="text"
+                    placeholder="Enter a city..."
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
+                  />
+                  <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
+                    {isPending ? <Loader2 className="animate-spin" /> : <Search />}
+                    <span className="ml-1 hidden xs:inline">Search</span>
+                  </Button>
+                </div>
+            </header>
+
+            {(isPending && !weather) && (
+              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-foreground">
+                  <div className='text-center'>
+                    <Loader2 className="h-10 w-10 animate-spin mx-auto" />
+                    <p className="mt-4 text-md">Fetching weather...</p>
                   </div>
-                  {getIcon(weather.current.condition, 'w-16 h-16 sm:w-20 sm:h-20 drop-shadow-lg')}
-                </CardHeader>
-                <CardContent className='flex flex-row items-end justify-between'>
-                    <p className="text-7xl sm:text-8xl font-bold">{weather.current.temperature}°</p>
-                    <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {weather.current.feelsLike}°</p>
-                </CardContent>
-              </GlassmorphismCard>
-              
-              {/* Outfit Suggestion */}
-              <GlassmorphismCard>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
-                    <Shirt />
-                    Outfit Suggestion
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm sm:text-md text-muted-foreground">{weather.current.outfitSuggestion}</p>
-                </CardContent>
-              </GlassmorphismCard>
+              </div>
+            )}
 
-              {/* Air Quality */}
-              <GlassmorphismCard>
+            {weather ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500">
+                {/* Current Weather */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
+                  <CardHeader className="flex flex-row items-start justify-between pb-2">
+                    <div className='flex flex-col'>
+                      <CardTitle className="text-2xl sm:text-3xl">{weather.current.city}</CardTitle>
+                      <CardDescription className='text-base sm:text-lg text-muted-foreground'>{weather.current.condition}</CardDescription>
+                    </div>
+                    {getIcon(weather.current.condition, 'w-16 h-16 sm:w-20 sm:h-20 drop-shadow-lg')}
+                  </CardHeader>
+                  <CardContent className='flex flex-row items-end justify-between'>
+                      <p className="text-7xl sm:text-8xl font-bold">{weather.current.temperature}°</p>
+                      <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {weather.current.feelsLike}°</p>
+                  </CardContent>
+                </GlassmorphismCard>
+                
+                {/* Outfit Suggestion */}
+                <GlassmorphismCard>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
-                       <WindIcon /> Air Quality Index
+                      <Shirt />
+                      Outfit Suggestion
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex flex-col items-center justify-center">
-                    <div className='relative flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24'>
-                      <Gauge className={cn('w-20 h-20 sm:w-24 sm:h-24', getAqiColor(weather.current.aqi))} style={{ transform: 'scaleX(-1)' }} />
-                      <p className='absolute text-2xl sm:text-3xl font-bold'>{weather.current.aqi}</p>
-                    </div>
-                    <p className={cn('text-base sm:text-lg font-semibold mt-2', getAqiColor(weather.current.aqi))}>{getAqiDescription(weather.current.aqi)}</p>
+                  <CardContent>
+                    <p className="text-sm sm:text-md text-muted-foreground">{weather.current.outfitSuggestion}</p>
                   </CardContent>
-              </GlassmorphismCard>
+                </GlassmorphismCard>
 
-              {/* Pollen Details */}
-              <GlassmorphismCard className="md:col-span-1 xl:col-span-2 text-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                    <Flower /> Pollen Levels
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <Leaf className="w-6 h-6 text-green-400" />
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Grass</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.pollen.grass.level}</span>
+                {/* Air Quality */}
+                <GlassmorphismCard>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
+                         <WindIcon /> Air Quality Index
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-center justify-center">
+                      <div className='relative flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24'>
+                        <Gauge className={cn('w-20 h-20 sm:w-24 sm:h-24', getAqiColor(weather.current.aqi))} style={{ transform: 'scaleX(-1)' }} />
+                        <p className='absolute text-2xl sm:text-3xl font-bold'>{weather.current.aqi}</p>
                       </div>
-                      <Progress value={weather.pollen.grass.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-green-400" />
-                    </div>
-                  </div>
-                   <div className="flex items-center gap-4">
-                    <Flower className="w-6 h-6 text-purple-400" />
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Weed</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.pollen.weed.level}</span>
-                      </div>
-                      <Progress value={weather.pollen.weed.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-purple-400" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Trees className="w-6 h-6 text-amber-500" />
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Tree</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.pollen.tree.level}</span>
-                      </div>
-                      <Progress value={weather.pollen.tree.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-amber-500" />
-                    </div>
-                  </div>
-                </CardContent>
-              </GlassmorphismCard>
+                      <p className={cn('text-base sm:text-lg font-semibold mt-2', getAqiColor(weather.current.aqi))}>{getAqiDescription(weather.current.aqi)}</p>
+                    </CardContent>
+                </GlassmorphismCard>
 
-              {/* Air Pollutants */}
-               <GlassmorphismCard className="md:col-span-1 xl:col-span-2 text-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                    <WindIcon /> Air Pollutants
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Ozone (O₃)</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.airPollutants.ozone.level}</span>
-                      </div>
-                      <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.ozone.level))} />
-                    </div>
-                  </div>
-                   <div className="flex items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Carbon Monoxide (CO)</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.airPollutants.carbonMonoxide.level}</span>
-                      </div>
-                      <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
-                    </div>
-                  </div>
-                   <div className="flex items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
-                        <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
-                      </div>
-                      <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
-                    </div>
-                  </div>
-                </CardContent>
-              </GlassmorphismCard>
-
-               {/* Activity Suggestions */}
-              <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                    <Drama />
-                    Activity Suggestions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {weather.activitySuggestions.map((activity, index) => (
-                        <div key={index} className="flex items-start gap-3 p-3 bg-black/10 dark:bg-white/10 rounded-lg">
-                            {getActivityIcon(activity.icon, 'w-8 h-8 text-primary shrink-0 mt-1')}
-                            <div>
-                                <h3 className="font-bold text-base">{activity.name}</h3>
-                                <p className="text-sm text-muted-foreground">{activity.description}</p>
-                            </div>
+                {/* Pollen Details */}
+                <GlassmorphismCard className="md:col-span-1 xl:col-span-2 text-foreground">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Flower /> Pollen Levels
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <Leaf className="w-6 h-6 text-green-400" />
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Grass</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.pollen.grass.level}</span>
                         </div>
-                    ))}
-                </CardContent>
-              </GlassmorphismCard>
+                        <Progress value={weather.pollen.grass.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-green-400" />
+                      </div>
+                    </div>
+                     <div className="flex items-center gap-4">
+                      <Flower className="w-6 h-6 text-purple-400" />
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Weed</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.pollen.weed.level}</span>
+                        </div>
+                        <Progress value={weather.pollen.weed.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-purple-400" />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Trees className="w-6 h-6 text-amber-500" />
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Tree</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.pollen.tree.level}</span>
+                        </div>
+                        <Progress value={weather.pollen.tree.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-amber-500" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </GlassmorphismCard>
 
-              {/* Current Conditions */}
-              <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                    Current Conditions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 text-base">
-                  <div className="flex items-center gap-2">
-                    <Droplets className="w-6 h-6 text-muted-foreground" />
-                    <div>
-                      <p className="text-xs">Humidity</p>
-                      <p className="font-medium">{weather.current.humidity}%</p>
+                {/* Air Pollutants */}
+                 <GlassmorphismCard className="md:col-span-1 xl:col-span-2 text-foreground">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <WindIcon /> Air Pollutants
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Ozone (O₃)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.ozone.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.ozone.level))} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Wind className="w-6 h-6 text-muted-foreground" />
-                    <div>
-                      <p className="text-xs">Wind Speed</p>
-                      <p className="font-medium">{weather.current.windSpeed} km/h</p>
+                     <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Carbon Monoxide (CO)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.carbonMonoxide.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Compass className="w-6 h-6 text-muted-foreground" />
-                    <div>
-                      <p className="text-xs">Direction</p>
-                      <p className="font-medium">{weather.current.windDirection}</p>
+                     <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-6 h-6 text-muted-foreground" />
-                     <div>
-                      <p className="text-xs">Visibility</p>
-                      <p className="font-medium">{weather.current.visibility} km</p>
+                  </CardContent>
+                </GlassmorphismCard>
+
+                 {/* Activity Suggestions */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <Drama />
+                      Activity Suggestions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {weather.activitySuggestions.map((activity, index) => (
+                          <div key={index} className="flex items-start gap-3 p-3 bg-black/10 dark:bg-white/10 rounded-lg">
+                              {getActivityIcon(activity.icon, 'w-8 h-8 text-primary shrink-0 mt-1')}
+                              <div>
+                                  <h3 className="font-bold text-base">{activity.name}</h3>
+                                  <p className="text-sm text-muted-foreground">{activity.description}</p>
+                              </div>
+                          </div>
+                      ))}
+                  </CardContent>
+                </GlassmorphismCard>
+
+                {/* Current Conditions */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      Current Conditions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 text-base">
+                    <div className="flex items-center gap-2">
+                      <Droplets className="w-6 h-6 text-muted-foreground" />
+                      <div>
+                        <p className="text-xs">Humidity</p>
+                        <p className="font-medium">{weather.current.humidity}%</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                     <p className='text-2xl font-bold'>UV</p>
-                     <div>
-                      <p className="text-xs">UV Index</p>
-                      <p className="font-medium">{weather.current.uvIndex}</p>
+                    <div className="flex items-center gap-2">
+                      <Wind className="w-6 h-6 text-muted-foreground" />
+                      <div>
+                        <p className="text-xs">Wind Speed</p>
+                        <p className="font-medium">{weather.current.windSpeed} km/h</p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className='text-muted-foreground'><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.7-.2-1.1-.2-1.4.1-2.7.7-3.9.7s-2.5-.7-3.9-.7c-.4 0-.8.1-1.1.2-2.4.6-4.2 2.4-4.8 4.8-.3 1.4 0 2.7.7 3.9.7 1.2 1.8 2.1 3.1 2.7.4.2.8.3 1.2.4 1.4-.1 2.7-.7 3.9-.7s2.5.7 3.9.7c.4 0 .8-.1 1.2-.4 1.3-.6 2.4-1.5 3.1-2.7z"/><path d="M12 15.5a.5.5 0 0 0-1 0V16a1 1 0 0 0 1 1h.5a.5.5 0 0 0 0-1H12v-.5z"/></svg>
-                     <div>
-                      <p className="text-xs">Pressure</p>
-                      <p className="font-medium">{weather.current.pressure} hPa</p>
+                    <div className="flex items-center gap-2">
+                      <Compass className="w-6 h-6 text-muted-foreground" />
+                      <div>
+                        <p className="text-xs">Direction</p>
+                        <p className="font-medium">{weather.current.windDirection}</p>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </GlassmorphismCard>
-              
-              {/* Sunrise & Sunset */}
-              <GlassmorphismCard className='md:col-span-2 xl:col-span-1 text-foreground'>
-                <CardContent className='pt-6 flex items-center justify-around'>
-                  <div className="flex flex-col items-center gap-1">
-                    <Sunrise className="w-8 h-8 text-yellow-400" />
-                    <p className="text-base font-bold">6:05 AM</p>
-                    <p className="text-xs text-muted-foreground">Sunrise</p>
-                  </div>
-                  <div className="flex flex-col items-center gap-1">
-                    <Sunset className="w-8 h-8 text-orange-400" />
-                    <p className="text-base font-bold">8:30 PM</p>
-                    <p className="text-xs text-muted-foreground">Sunset</p>
-                  </div>
-                </CardContent>
-              </GlassmorphismCard>
-              
-               {/* Hourly Forecast Chart */}
-               <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
-                    <Clock />
-                    Hourly Forecast
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="h-56 sm:h-64">
-                   <ChartContainer
-                      config={{
-                        temperature: {
-                          label: "Temperature",
-                          color: "hsl(var(--primary))",
-                        },
-                      }}
-                    >
-                      <LineChart
-                        data={weather.hourly}
-                        margin={{
-                          top: 5,
-                          right: 20,
-                          left: -10,
-                          bottom: 5,
+                    <div className="flex items-center gap-2">
+                      <Eye className="w-6 h-6 text-muted-foreground" />
+                       <div>
+                        <p className="text-xs">Visibility</p>
+                        <p className="font-medium">{weather.current.visibility} km</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                       <p className='text-2xl font-bold'>UV</p>
+                       <div>
+                        <p className="text-xs">UV Index</p>
+                        <p className="font-medium">{weather.current.uvIndex}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className='text-muted-foreground'><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.7-.2-1.1-.2-1.4.1-2.7.7-3.9.7s-2.5-.7-3.9-.7c-.4 0-.8.1-1.1.2-2.4.6-4.2 2.4-4.8 4.8-.3 1.4 0 2.7.7 3.9.7 1.2 1.8 2.1 3.1 2.7.4.2.8.3 1.2.4 1.4-.1 2.7-.7 3.9-.7s2.5.7 3.9.7c.4 0 .8-.1 1.2-.4 1.3-.6 2.4-1.5 3.1-2.7z"/><path d="M12 15.5a.5.5 0 0 0-1 0V16a1 1 0 0 0 1 1h.5a.5.5 0 0 0 0-1H12v-.5z"/></svg>
+                       <div>
+                        <p className="text-xs">Pressure</p>
+                        <p className="font-medium">{weather.current.pressure} hPa</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </GlassmorphismCard>
+                
+                {/* Sunrise & Sunset */}
+                <GlassmorphismCard className='md:col-span-2 xl:col-span-1 text-foreground'>
+                  <CardContent className='pt-6 flex items-center justify-around'>
+                    <div className="flex flex-col items-center gap-1">
+                      <Sunrise className="w-8 h-8 text-yellow-400" />
+                      <p className="text-base font-bold">6:05 AM</p>
+                      <p className="text-xs text-muted-foreground">Sunrise</p>
+                    </div>
+                    <div className="flex flex-col items-center gap-1">
+                      <Sunset className="w-8 h-8 text-orange-400" />
+                      <p className="text-base font-bold">8:30 PM</p>
+                      <p className="text-xs text-muted-foreground">Sunset</p>
+                    </div>
+                  </CardContent>
+                </GlassmorphismCard>
+                
+                 {/* Hourly Forecast Chart */}
+                 <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-foreground text-lg sm:text-xl">
+                      <Clock />
+                      Hourly Forecast
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-56 sm:h-64">
+                     <ChartContainer
+                        config={{
+                          temperature: {
+                            label: "Temperature",
+                            color: "hsl(var(--primary))",
+                          },
                         }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" stroke='hsla(var(--border) / 0.2)' />
-                        <XAxis
-                          dataKey="time"
-                          tickFormatter={(value, index) => index % 3 === 0 ? value : ''}
-                          stroke="hsl(var(--muted-foreground))"
-                          fontSize={12}
-                          tickLine={false}
-                          axisLine={false}
-                        />
-                        <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
-                        <Tooltip
-                          content={
-                            <ChartTooltipContent
-                              indicator="dot"
-                              formatter={(value) => `${value}°`}
-                            />
-                          }
-                          contentStyle={{
-                            backgroundColor: 'hsla(var(--background) / 0.8)',
-                            borderColor: 'hsla(var(--border) / 0.5)',
-                            color: 'hsl(var(--foreground))',
-                            borderRadius: '0.75rem'
+                        <LineChart
+                          data={weather.hourly}
+                          margin={{
+                            top: 5,
+                            right: 20,
+                            left: -10,
+                            bottom: 5,
                           }}
-                          cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
-                        />
-                        <Line
-                          dataKey="temperature"
-                          type="monotone"
-                          stroke="hsl(var(--primary))"
-                          strokeWidth={2}
-                          dot={false}
-                        />
-                      </LineChart>
-                    </ChartContainer>
-                </CardContent>
-              </GlassmorphismCard>
-              
-              {/* 7-Day Forecast */}
-              <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
-                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                    <BarChart />
-                    7-Day Forecast
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                  <div className="grid grid-cols-4 sm:grid-cols-7 xl:col-span-1 gap-2 text-center">
-                    {weather.forecast.map((day, index) => (
-                      <div key={index} className="flex flex-col items-center p-2 bg-black/10 dark:bg-white/10 rounded-lg">
-                        <p className="font-semibold text-sm">{day.day.substring(0,3)}</p>
-                        <div className="my-1">{getIcon(day.condition, 'w-8 h-8')}</div>
-                        <p className="text-base font-bold">{day.temperature}°</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="h-56 sm:h-64 xl:col-span-1">
-                    <ChartContainer config={{}} className='text-foreground'>
-                      <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={weather.forecast} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
-                              <defs>
-                                  <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
-                                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                                  </linearGradient>
-                              </defs>
-                              <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => value.substring(0, 3)} />
-                              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
-                              <CartesianGrid strokeDasharray="3 3" stroke='hsla(var(--border) / 0.2)' />
-                              <Tooltip 
-                                contentStyle={{
-                                  backgroundColor: 'hsla(var(--background) / 0.8)',
-                                  borderColor: 'hsla(var(--border) / 0.5)',
-                                  color: 'hsl(var(--foreground))',
-                                  borderRadius: '0.75rem'
-                                }}
-                                cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke='hsla(var(--border) / 0.2)' />
+                          <XAxis
+                            dataKey="time"
+                            tickFormatter={(value, index) => index % 3 === 0 ? value : ''}
+                            stroke="hsl(var(--muted-foreground))"
+                            fontSize={12}
+                            tickLine={false}
+                            axisLine={false}
+                          />
+                          <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
+                          <Tooltip
+                            content={
+                              <ChartTooltipContent
+                                indicator="dot"
+                                formatter={(value) => `${value}°`}
                               />
-                              <Area type="monotone" dataKey="temperature" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorTemp)" name="Temp" />
-                          </AreaChart>
-                      </ResponsiveContainer>
-                    </ChartContainer>
-                  </div>
-                </CardContent>
-              </GlassmorphismCard>
-            </div>
-          ) : (!weather && !isPending && (
-            <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
-              <GlassmorphismCard className='p-8'>
-                <Sun className="h-20 w-20 mx-auto text-foreground" />
-                <p className="mt-4 text-base text-foreground">Enter a city to get the weather forecast.</p>
-                <p className="text-xs text-muted-foreground">e.g. London, New York, Tokyo</p>
-              </GlassmorphismCard>
-            </div>
-          ))}
+                            }
+                            contentStyle={{
+                              backgroundColor: 'hsla(var(--background) / 0.8)',
+                              borderColor: 'hsla(var(--border) / 0.5)',
+                              color: 'hsl(var(--foreground))',
+                              borderRadius: '0.75rem'
+                            }}
+                            cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
+                          />
+                          <Line
+                            dataKey="temperature"
+                            type="monotone"
+                            stroke="hsl(var(--primary))"
+                            strokeWidth={2}
+                            dot={false}
+                          />
+                        </LineChart>
+                      </ChartContainer>
+                  </CardContent>
+                </GlassmorphismCard>
+                
+                {/* 7-Day Forecast */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
+                   <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <BarChart />
+                      7-Day Forecast
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-4 sm:grid-cols-7 xl:col-span-1 gap-2 text-center">
+                      {weather.forecast.map((day, index) => (
+                        <div key={index} className="flex flex-col items-center p-2 bg-black/10 dark:bg-white/10 rounded-lg">
+                          <p className="font-semibold text-sm">{day.day.substring(0,3)}</p>
+                          <div className="my-1">{getIcon(day.condition, 'w-8 h-8')}</div>
+                          <p className="text-base font-bold">{day.temperature}°</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="h-56 sm:h-64 xl:col-span-1">
+                      <ChartContainer config={{}} className='text-foreground'>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={weather.forecast} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                                        <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => value.substring(0, 3)} />
+                                <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
+                                <CartesianGrid strokeDasharray="3 3" stroke='hsla(var(--border) / 0.2)' />
+                                <Tooltip 
+                                  contentStyle={{
+                                    backgroundColor: 'hsla(var(--background) / 0.8)',
+                                    borderColor: 'hsla(var(--border) / 0.5)',
+                                    color: 'hsl(var(--foreground))',
+                                    borderRadius: '0.75rem'
+                                  }}
+                                  cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
+                                />
+                                <Area type="monotone" dataKey="temperature" stroke="hsl(var(--primary))" fillOpacity={1} fill="url(#colorTemp)" name="Temp" />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                      </ChartContainer>
+                    </div>
+                  </CardContent>
+                </GlassmorphismCard>
+              </div>
+            ) : (!weather && !isPending && (
+              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
+                <GlassmorphismCard className='p-8'>
+                  <Sun className="h-20 w-20 mx-auto text-foreground" />
+                  <p className="mt-4 text-base text-foreground">Enter a city to get the weather forecast.</p>
+                  <p className="text-xs text-muted-foreground">e.g. London, New York, Tokyo</p>
+                </GlassmorphismCard>
+              </div>
+            ))}
+          </div>
         </main>
       </div>
     </SidebarProvider>
