@@ -45,6 +45,21 @@ export function WeatherPage() {
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
 
+  const handleSearch = (searchCity: string) => {
+    if (!searchCity) return;
+    startTransition(async () => {
+      setWeather(null);
+      const weatherResult = await getWeather({ city: searchCity });
+      setWeather(weatherResult);
+    });
+  };
+
+  useEffect(() => {
+    handleSearch('New York');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  
+
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
@@ -64,15 +79,6 @@ export function WeatherPage() {
     }
     return celsius;
   }
-
-  const handleSearch = (searchCity: string) => {
-    if (!searchCity) return;
-    startTransition(async () => {
-      setWeather(null);
-      const weatherResult = await getWeather({ city: searchCity });
-      setWeather(weatherResult);
-    });
-  };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -479,7 +485,7 @@ export function WeatherPage() {
                 </GlassmorphismCard>
               </div>
             ) : (
-              <div className="grid place-items-center h-full text-center text-foreground">
+             <div className="grid place-items-center h-full text-center text-foreground">
                 <GlassmorphismCard className='p-8 max-w-md w-full'>
                   <div className='mb-4'>
                     <p className='text-5xl font-bold'>{time}</p>
