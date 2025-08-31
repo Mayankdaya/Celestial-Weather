@@ -297,7 +297,7 @@ export function WeatherPage() {
                           <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
                           <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
                         </div>
-                        <Progress value={weather.airPollutants.sulfurDdioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
+                        <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
                       </div>
                     </div>
                   </CardContent>
