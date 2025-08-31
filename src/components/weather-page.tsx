@@ -183,7 +183,7 @@ export function WeatherPage() {
             )}
             
             {weather && weather.current.condition === 'Error' && (
-              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
+              <div className="grid place-items-center h-[calc(100vh-160px)] text-center text-foreground">
                 <GlassmorphismCard className='p-8'>
                   <CloudRain className="h-20 w-20 mx-auto text-destructive" />
                   <p className="mt-4 text-base text-foreground">Could not retrieve weather for {city}.</p>
@@ -482,7 +482,7 @@ export function WeatherPage() {
                 </GlassmorphismCard>
               </div>
             ) : (!weather && !isPending && (
-              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground w-full">
+              <div className="grid place-items-center h-[calc(100vh-160px)] text-center text-foreground">
                 <GlassmorphismCard className='p-8 max-w-md w-full'>
                   <div className='mb-4'>
                     <p className='text-5xl font-bold'>{time}</p>
