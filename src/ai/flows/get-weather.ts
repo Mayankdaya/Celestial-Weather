@@ -51,6 +51,34 @@ const WeatherDataSchema = z.object({
         icon: z.string().describe("A relevant icon name from lucide-react, e.g., 'TreePine', 'Utensils', 'Building2'.")
     })
   ).length(3).describe('A list of three suggested activities based on the current weather.'),
+  pollen: z.object({
+    grass: z.object({
+      level: z.string().describe('Pollen level (e.g., Low, Moderate, High, Very High).'),
+      value: z.number().describe('Pollen count value (0-100).'),
+    }),
+    weed: z.object({
+      level: z.string().describe('Pollen level (e.g., Low, Moderate, High, Very High).'),
+      value: z.number().describe('Pollen count value (0-100).'),
+    }),
+    tree: z.object({
+      level: z.string().describe('Pollen level (e.g., Low, Moderate, High, Very High).'),
+      value: z.number().describe('Pollen count value (0-100).'),
+    }),
+  }).describe('Pollen details for grass, weed, and tree.'),
+  airPollutants: z.object({
+    ozone: z.object({
+      level: z.string().describe('Pollutant level (e.g., Good, Moderate).'),
+      value: z.number().describe('Pollutant value (0-100).'),
+    }),
+    carbonMonoxide: z.object({
+      level: z.string().describe('Pollutant level (e.g., Good, Moderate).'),
+      value: z.number().describe('Pollutant value (0-100).'),
+    }),
+    sulfurDioxide: z.object({
+      level: z.string().describe('Pollutant level (e.g., Good, Moderate).'),
+      value: z.number().describe('Pollutant value (0-100).'),
+    }),
+  }).describe('Air pollutant details for ozone, carbon monoxide, and sulfur dioxide.'),
 });
 export type WeatherData = z.infer<typeof WeatherDataSchema>;
 
@@ -69,6 +97,8 @@ const prompt = ai.definePrompt({
     Also provide a suggestion for what to wear based on the current weather.
 
     Based on the weather, suggest 3 activities suitable for the given city. For each, provide a name, a short description, and a relevant icon name from the lucide-react library. For example, for a park, use 'TreePine'; for a restaurant, use 'Utensils'.
+
+    Provide details on pollen levels (grass, weed, tree) and air pollutants (ozone, carbon monoxide, sulfur dioxide). Each should have a 'level' (e.g., Low, Good) and a 'value' (0-100).
 
     City: {{{city}}}
 
