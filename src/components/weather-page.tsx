@@ -2,11 +2,11 @@
 'use client';
 
 import { useState, useTransition, useEffect } from 'react';
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
@@ -77,7 +77,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/15 text-gray-800 border border-white/20 backdrop-blur-2xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/30', className)}>
+    <Card className={cn('bg-white/20 text-gray-800 border-white/30 backdrop-blur-xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/40', className)}>
       {children}
     </Card>
   );
@@ -267,7 +267,7 @@ export function WeatherPage() {
               </GlassmorphismCard>
               
               {/* Sunrise & Sunset */}
-              <GlassmorphismCard className='xl:col-span-1'>
+              <GlassmorphismCard className='md:col-span-2 xl:col-span-1'>
                 <CardContent className='pt-6 flex items-center justify-around'>
                   <div className="flex flex-col items-center gap-1">
                     <Sunrise className="w-8 h-8 text-yellow-500" />
@@ -282,30 +282,66 @@ export function WeatherPage() {
                 </CardContent>
               </GlassmorphismCard>
               
-              {/* Hourly Forecast */}
-              <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
+               {/* Hourly Forecast Chart */}
+               <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-gray-800 text-lg sm:text-xl">
                     <Clock />
                     Hourly Forecast
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <Carousel opts={{ align: 'start', dragFree: true }}>
-                    <CarouselContent className="-ml-1">
-                      {weather.hourly.map((hour, index) => (
-                        <CarouselItem key={index} className="pl-1 basis-1/4 xs:basis-1/5 sm:basis-1/6 md:basis-[12%]">
-                          <div className="flex flex-col items-center p-2 text-center bg-white/20 rounded-lg h-full justify-between gap-1">
-                            <p className="text-xs font-semibold text-gray-800">{hour.time}</p>
-                            {getIcon(hour.condition, 'w-7 h-7 text-gray-800')}
-                            <p className="text-base font-bold text-gray-800">{hour.temperature}°</p>
-                          </div>
-                        </CarouselItem>
-                      ))}
-                    </CarouselContent>
-                    <CarouselPrevious className="text-gray-800 bg-black/10 border-none hover:bg-black/20 -left-3 hidden sm:flex" />
-                    <CarouselNext className="text-gray-800 bg-black/10 border-none hover:bg-black/20 -right-3 hidden sm:flex" />
-                  </Carousel>
+                <CardContent className="h-56 sm:h-64">
+                   <ChartContainer
+                      config={{
+                        temperature: {
+                          label: "Temperature",
+                          color: "hsl(var(--primary))",
+                        },
+                      }}
+                    >
+                      <LineChart
+                        data={weather.hourly}
+                        margin={{
+                          top: 5,
+                          right: 20,
+                          left: -10,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke='hsl(var(--border) / 0.5)' />
+                        <XAxis
+                          dataKey="time"
+                          tickFormatter={(value, index) => index % 3 === 0 ? value : ''}
+                          stroke="hsl(var(--muted-foreground) / 0.5)"
+                          fontSize={12}
+                          tickLine={false}
+                          axisLine={false}
+                        />
+                        <YAxis stroke="hsl(var(--muted-foreground) / 0.5)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
+                        <Tooltip
+                          content={
+                            <ChartTooltipContent
+                              indicator="dot"
+                              formatter={(value) => `${value}°`}
+                            />
+                          }
+                          contentStyle={{
+                            backgroundColor: 'hsla(var(--background) / 0.8)',
+                            borderColor: 'hsla(var(--border) / 0.5)',
+                            color: 'hsl(var(--foreground))',
+                            borderRadius: '0.75rem'
+                          }}
+                          cursor={{ fill: 'hsla(var(--primary) / 0.1)' }}
+                        />
+                        <Line
+                          dataKey="temperature"
+                          type="monotone"
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2}
+                          dot={false}
+                        />
+                      </LineChart>
+                    </ChartContainer>
                 </CardContent>
               </GlassmorphismCard>
               
@@ -371,5 +407,3 @@ export function WeatherPage() {
     </SidebarProvider>
   );
 }
-
-    
