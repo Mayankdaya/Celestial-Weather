@@ -16,13 +16,13 @@
 
 ## ✨ Features
 
--   **Real-Time Weather Data**: Instant access to current temperature, humidity, wind speed, pressure, and more.
--   **Detailed Forecasts**: Comprehensive 5-day and 7-hour forecasts to plan your week.
--   **AI-Powered Suggestions**: Personalized recommendations for activities and places to visit based on the weather.
--   **Health-Conscious Info**: Stay informed with Air Quality Index (AQI), PM2.5, Ozone, and pollen levels.
--   **Interactive Charts**: Visualize hourly temperature and "feels like" trends with dynamic charts.
--   **Sleek Glassmorphism UI**: A premium, responsive design that looks stunning on any device.
--   **HD Weather Icons**: High-resolution, realistic icons for a polished user experience.
+-   🌡️ **Real-Time Weather Data**: Instant access to current temperature, humidity, wind speed, pressure, and more.
+-   🗓️ **Detailed Forecasts**: Comprehensive 5-day and 7-hour forecasts to plan your week.
+-   🧠 **AI-Powered Suggestions**: Personalized recommendations for activities and places to visit based on the weather.
+-   🍃 **Health-Conscious Info**: Stay informed with Air Quality Index (AQI), PM2.5, Ozone, and pollen levels.
+-   📊 **Interactive Charts**: Visualize hourly temperature and "feels like" trends with dynamic charts.
+-   📱 **Sleek Glassmorphism UI**: A premium, responsive design that looks stunning on any device.
+-   ☀️ **HD Weather Icons**: High-resolution, realistic icons for a polished user experience.
 
 ## 📸 Screenshots
 
@@ -72,6 +72,31 @@ To get a local copy up and running, follow these simple steps.
     ```
 
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+
+## 🚀 Deployment
+
+This project is optimized for deployment on [Vercel](https://vercel.com/). Follow these steps to deploy from your terminal.
+
+1.  **Install the Vercel CLI:**
+    ```sh
+    npm install -g vercel
+    ```
+2.  **Log in to Vercel:**
+    ```sh
+    vercel login
+    ```
+3.  **Link the project:**
+    ```sh
+    vercel link
+    ```
+4.  **Add your environment variable secret:**
+    ```sh
+    vercel env add GEMINI_API_KEY
+    ```
+5.  **Deploy to production:**
+    ```sh
+    vercel --prod
+    ```
 
 ## 📄 License
 
