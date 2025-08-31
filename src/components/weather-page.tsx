@@ -4,7 +4,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Cloud, CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, CloudSnow, Thermometer, Briefcase } from 'lucide-react';
+import { Cloud, CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Snowflake, Thermometer, Briefcase } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -14,12 +14,11 @@ import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 const getIcon = (condition: string, width = 64, height = 64) => {
     const iconProps = { width, height, className: 'aspect-square' };
-    const baseUrl = 'https://cdn.weatherapi.com/weather/128x128/day/';
-    if (condition.includes('Cloud')) return <Image alt="cloudy" src={`${baseUrl}116.png`} {...iconProps} data-ai-hint="cloudy" />;
-    if (condition.includes('Rain')) return <Image alt="rain" src={`${baseUrl}302.png`} {...iconProps} data-ai-hint="rain" />;
-    if (condition.includes('Snow')) return <Image alt="snow" src={`${baseUrl}332.png`} {...iconProps} data-ai-hint="snow" />;
-    if (condition.includes('Clear') || condition.includes('Sunny')) return <Image alt="sun" src={`${baseUrl}113.png`} {...iconProps} data-ai-hint="sun" />;
-    return <Image alt="sun" src={`${baseUrl}113.png`} {...iconProps} data-ai-hint="weather" />;
+    if (condition.toLowerCase().includes('cloud')) return <Cloud {...iconProps} />;
+    if (condition.toLowerCase().includes('rain')) return <CloudRain {...iconProps} />;
+    if (condition.toLowerCase().includes('snow')) return <Snowflake {...iconProps} />;
+    if (condition.toLowerCase().includes('clear') || condition.toLowerCase().includes('sunny')) return <Sun {...iconProps} />;
+    return <Sun {...iconProps} />;
 }
 
 export function WeatherPage() {
@@ -54,7 +53,7 @@ export function WeatherPage() {
   };
   
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <div className={cn('bg-black/10 border border-white/10 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
+    <div className={cn('bg-black/20 border border-white/20 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
       {children}
     </div>
   );
