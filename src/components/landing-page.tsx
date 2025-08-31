@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ArrowRight, CloudLightning, Gauge, Sun } from 'lucide-react';
+import { ArrowRight, CloudLightning, Gauge, Sun, Leaf, BarChart, Smartphone } from 'lucide-react';
 
 export function LandingPage() {
 
@@ -50,6 +50,18 @@ export function LandingPage() {
                  <GlassmorphismCard className="p-6">
                     <h3 className="font-bold text-xl mb-2">Lifestyle Suggestions</h3>
                     <p className="text-gray-300">Receive AI-powered suggestions for activities and places to visit based on the current weather.</p>
+                </GlassmorphismCard>
+                <GlassmorphismCard className="p-6">
+                    <h3 className="font-bold text-xl mb-2">Air Quality & Pollen</h3>
+                    <p className="text-gray-300">Stay informed about air quality (AQI, PM2.5) and pollen levels for a healthier day outdoors.</p>
+                </GlassmorphismCard>
+                <GlassmorphismCard className="p-6">
+                    <h3 className="font-bold text-xl mb-2">Interactive Charts</h3>
+                    <p className="text-gray-300">Visualize hourly temperature and "feels like" trends with our dynamic, easy-to-read charts.</p>
+                </GlassmorphismCard>
+                <GlassmorphismCard className="p-6">
+                    <h3 className="font-bold text-xl mb-2">Sleek & Responsive</h3>
+                    <p className="text-gray-300">Enjoy a premium, clean design that looks stunning and works perfectly on any device, from phones to desktops.</p>
                 </GlassmorphismCard>
             </div>
         </main>
