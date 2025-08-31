@@ -77,7 +77,7 @@ export default function WeatherPage() {
   } satisfies ChartConfig;
 
   return (
-    <main className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
+    <div className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-6xl space-y-6">
         <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" asChild>
@@ -261,6 +261,6 @@ export default function WeatherPage() {
             )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

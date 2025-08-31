@@ -105,6 +105,15 @@ export default {
             '0%, 100%': { transform: 'translateX(0)' },
             '25%': { transform: 'translateX(-5px)' },
             '75%': { transform: 'translateX(5px)' },
+        },
+        twinkle: {
+            '0%, 100%': { opacity: '0.2' },
+            '50%': { opacity: '1' },
+        },
+        shoot: {
+            '0%': { transform: 'translateX(150vw) translateY(-20vh) scale(0.3)', opacity: '1' },
+            '80%': { opacity: '1' },
+            '100%': { transform: 'translateX(-50vw) translateY(25vh) scale(1)', opacity: '0' },
         }
       },
       animation: {
@@ -114,6 +123,8 @@ export default {
         float: 'float 3s ease-in-out infinite',
         wiggle: 'wiggle 1.5s ease-in-out infinite',
         shake: 'shake 1s ease-in-out infinite',
+        twinkle: 'twinkle 4s ease-in-out infinite',
+        shoot: 'shoot 10s ease-in-out infinite',
       },
     },
   },

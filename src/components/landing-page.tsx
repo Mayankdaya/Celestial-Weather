@@ -15,7 +15,7 @@ export function LandingPage() {
     );
 
     return (
-        <main className="flex flex-col min-h-screen w-full items-center justify-center p-4 sm:p-6 lg:p-8 space-y-12">
+        <div className="space-y-12">
             <GlassmorphismCard className="p-8 md:p-12 w-full max-w-4xl text-center">
                 <div className="flex justify-center items-center gap-4 mb-4">
                     <Sun className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)] animate-spin-slow hover:pause" />
@@ -67,6 +67,6 @@ export function LandingPage() {
                     <p className="text-gray-300">Enjoy a premium, clean design that looks stunning and works perfectly on any device, from phones to desktops.</p>
                 </GlassmorphismCard>
             </div>
-        </main>
+        </div>
     );
 }
