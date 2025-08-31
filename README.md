@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# 🌦️ Advanced Weather Dashboard 🌦️
+# 🌦️ Celestial Weather 🌦️
 
 **A beautiful, AI-powered weather application built with Next.js, Genkit, and Tailwind CSS. Get real-time weather data, detailed forecasts, air quality, and lifestyle suggestions in a stunning, modern interface.**
 
@@ -51,8 +51,8 @@ To get a local copy up and running, follow these simple steps.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/your-username/celestial-weather.git
+    cd celestial-weather
     ```
 
 2.  **Install NPM packages:**

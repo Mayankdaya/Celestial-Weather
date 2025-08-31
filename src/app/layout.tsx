@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Weather App',
-  description: 'A beautiful weather app to get the current weather and forecast for any city.',
+  title: 'Celestial Weather',
+  description: 'An advanced, AI-powered weather application to get real-time weather data, detailed forecasts, and lifestyle suggestions.',
 };
 
 export default function RootLayout({

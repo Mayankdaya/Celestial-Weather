@@ -85,7 +85,7 @@ export default function WeatherPage() {
                     <Home />
                 </Link>
             </Button>
-            <h1 className="text-2xl font-bold text-white">Weather Dashboard</h1>
+            <h1 className="text-2xl font-bold text-white">Celestial Weather</h1>
             <div className="relative w-full max-w-xs">
               <Input
                 type="text"

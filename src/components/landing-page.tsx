@@ -23,7 +23,7 @@ export function LandingPage() {
                     <Gauge className="w-10 h-10 text-blue-300" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
-                    Advanced Weather Dashboard
+                    Celestial Weather
                 </h1>
                 <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                     Get real-time weather data, 5-day forecasts, air quality, and personalized suggestions with our beautifully designed, AI-powered weather application.
