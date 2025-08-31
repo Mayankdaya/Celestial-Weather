@@ -54,13 +54,13 @@ export function WeatherPage() {
   };
   
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <div className={cn('bg-white/10 border border-white/20 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
+    <div className={cn('bg-black/10 border border-white/10 backdrop-blur-lg shadow-2xl rounded-3xl text-white', className)}>
       {children}
     </div>
   );
 
   const InfoCard = ({ icon, title, value, subValue }: { icon: React.ReactNode, title: string, value: string, subValue?: string }) => (
-    <Card className="bg-white/10 p-4 rounded-2xl flex items-center gap-4">
+    <Card className="bg-black/20 p-4 rounded-2xl flex items-center gap-4 border-white/10">
       <div className="text-gray-300">{icon}</div>
       <div>
         <p className="text-sm text-gray-300">{title}</p>
@@ -82,7 +82,7 @@ export function WeatherPage() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="h-11 w-full rounded-full bg-black/20 border-none pl-6 pr-14 text-white placeholder:text-gray-300 focus:ring-2 focus:ring-white/50"
+                className="h-11 w-full rounded-full bg-black/20 border-white/20 pl-6 pr-14 text-white placeholder:text-gray-300 focus:ring-2 focus:ring-white/50"
               />
               <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 rounded-full bg-white/20 hover:bg-white/30">
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
@@ -124,7 +124,7 @@ export function WeatherPage() {
 
                 <div className="grid grid-cols-5 gap-2">
                   {weather.forecast.map((day, index) => (
-                    <div key={index} className="flex flex-col items-center p-2 bg-white/10 rounded-2xl text-center">
+                    <div key={index} className="flex flex-col items-center p-2 bg-black/20 border-white/10 rounded-2xl text-center">
                       <p className="text-xs font-semibold">{day.day}</p>
                       <div className='my-1 w-10 h-10'>{getIcon(day.condition, 40, 40)}</div>
                       <p className="font-bold text-base">{day.temperature}°</p>
@@ -136,7 +136,7 @@ export function WeatherPage() {
             <div className="md:col-span-2 space-y-6">
                 <div>
                     <h2 className="text-lg font-semibold mb-2">HOURLY FORECAST</h2>
-                    <Card className="bg-white/10 p-4 rounded-2xl">
+                    <Card className="bg-black/20 p-4 rounded-2xl border-white/10">
                       <ChartContainer config={{}} className="h-[150px] w-full">
                           <ResponsiveContainer width="100%" height="100%">
                               <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
@@ -146,9 +146,9 @@ export function WeatherPage() {
                                   <RechartsTooltip 
                                       content={<ChartTooltipContent />} 
                                       cursor={{fill: 'rgba(255,255,255,0.1)'}}
-                                      contentStyle={{backgroundColor: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '10px'}}
+                                      contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px'}}
                                   />
-                                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} dot={{r:4}} activeDot={{r:6}} name="Temp"/>
+                                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} dot={{r:4, fill: '#8884d8'}} activeDot={{r:6}} name="Temp"/>
                               </LineChart>
                           </ResponsiveContainer>
                       </ChartContainer>
