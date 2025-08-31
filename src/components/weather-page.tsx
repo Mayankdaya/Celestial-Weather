@@ -117,8 +117,39 @@ export function WeatherPage() {
   return (
     <SidebarProvider>
       <div
-        className="flex min-h-screen transition-all duration-1000"
+        className="flex min-h-screen transition-all duration-1000 h-screen flex-col"
       >
+        <header className="flex flex-col sm:flex-row items-center justify-between gap-4 p-2 sm:p-4 md:p-6 z-20 shrink-0">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
+               <Link href="/" className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">
+                <h1>Weather Dashboard</h1>
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-4">
+               <div className="flex items-center space-x-2">
+                <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'C' ? 'text-primary' : 'text-muted-foreground')}>°C</Label>
+                <Switch id="temp-unit" checked={unit === 'F'} onCheckedChange={(checked) => setUnit(checked ? 'F' : 'C')} />
+                <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'F' ? 'text-primary' : 'text-muted-foreground')}>°F</Label>
+              </div>
+              <div className="relative flex w-full sm:max-w-xs">
+                <Input
+                  type="text"
+                  placeholder="Enter a city..."
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
+                />
+                <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
+                  {isPending ? <Loader2 className="animate-spin" /> : <Search />}
+                  <span className="ml-1 hidden xs:inline">Search</span>
+                </Button>
+              </div>
+            </div>
+        </header>
+
         <Sidebar collapsible='icon' className='border-r border-black/10 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-xl'>
           <SidebarContent>
             <SidebarMenu>
@@ -140,60 +171,26 @@ export function WeatherPage() {
           </SidebarContent>
         </Sidebar>
 
-        <main className="flex-1 p-2 sm:p-4 md:p-6 z-10 overflow-y-auto">
-          <div className="mx-auto w-full max-w-7xl">
-            <header className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-                <div className="flex items-center gap-2">
-                  <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
-                   <Link href="/" className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">
-                    <h1>Weather Dashboard</h1>
-                  </Link>
-                </div>
-
-                <div className="flex items-center gap-4">
-                   <div className="flex items-center space-x-2">
-                    <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'C' ? 'text-primary' : 'text-muted-foreground')}>°C</Label>
-                    <Switch id="temp-unit" checked={unit === 'F'} onCheckedChange={(checked) => setUnit(checked ? 'F' : 'C')} />
-                    <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'F' ? 'text-primary' : 'text-muted-foreground')}>°F</Label>
-                  </div>
-                  <div className="relative flex w-full sm:max-w-xs">
-                    <Input
-                      type="text"
-                      placeholder="Enter a city..."
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
-                    />
-                    <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
-                      {isPending ? <Loader2 className="animate-spin" /> : <Search />}
-                      <span className="ml-1 hidden xs:inline">Search</span>
-                    </Button>
-                  </div>
-                </div>
-            </header>
-
-            {(isPending && !weather) && (
-              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-foreground">
+        <main className="flex-1 p-2 sm:p-4 md:p-6 z-10 flex-grow">
+          {(!weather && isPending) && (
+              <div className="flex items-center justify-center h-full text-foreground">
                   <div className='text-center'>
                     <Loader2 className="h-10 w-10 animate-spin mx-auto" />
                     <p className="mt-4 text-md">Fetching weather...</p>
                   </div>
               </div>
-            )}
-            
-            {weather && weather.current.condition === 'Error' && (
-              <div className="grid place-items-center h-[calc(100vh-160px)] text-center text-foreground">
-                <GlassmorphismCard className='p-8'>
-                  <CloudRain className="h-20 w-20 mx-auto text-destructive" />
-                  <p className="mt-4 text-base text-foreground">Could not retrieve weather for {city}.</p>
-                  <p className="text-xs text-muted-foreground">Please check the city name or try again later.</p>
-                </GlassmorphismCard>
-              </div>
-            )}
-
-            {weather && weather.current.condition !== 'Error' ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500">
+          )}
+          
+          {weather && weather.current.condition === 'Error' ? (
+            <div className="grid place-items-center h-full text-center text-foreground">
+              <GlassmorphismCard className='p-8'>
+                <CloudRain className="h-20 w-20 mx-auto text-destructive" />
+                <p className="mt-4 text-base text-foreground">Could not retrieve weather for {city}.</p>
+                <p className="text-xs text-muted-foreground">Please check the city name or try again later.</p>
+              </GlassmorphismCard>
+            </div>
+          ) : weather ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500 overflow-y-auto">
                 {/* Current Weather */}
                 <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
                   <CardHeader className="flex flex-row items-start justify-between pb-2">
@@ -481,8 +478,8 @@ export function WeatherPage() {
                   </CardContent>
                 </GlassmorphismCard>
               </div>
-            ) : (!weather && !isPending && (
-              <div className="grid place-items-center h-[calc(100vh-160px)] text-center text-foreground">
+            ) : (
+              <div className="grid place-items-center h-full text-center text-foreground">
                 <GlassmorphismCard className='p-8 max-w-md w-full'>
                   <div className='mb-4'>
                     <p className='text-5xl font-bold'>{time}</p>
@@ -498,8 +495,7 @@ export function WeatherPage() {
                   </div>
                 </GlassmorphismCard>
               </div>
-            ))}
-          </div>
+            )}
         </main>
       </div>
     </SidebarProvider>
