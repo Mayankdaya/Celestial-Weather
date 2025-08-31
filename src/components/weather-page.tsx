@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useTransition, useEffect } from 'react';
+import { useState, useTransition } from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, Line, LineChart } from 'recharts';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -34,7 +34,7 @@ const getActivityIcon = (iconName: string, className = "w-8 h-8") => {
 const majorCities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Dubai', 'Singapore', 'Los Angeles', 'Chicago', 'Moscow'];
 
 export function WeatherPage() {
-  const [city, setCity] = useState('New York');
+  const [city, setCity] = useState('');
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -46,11 +46,6 @@ export function WeatherPage() {
       setWeather(weatherResult);
     });
   };
-
-  useEffect(() => {
-    handleSearch('New York');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -77,7 +72,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/20 text-gray-800 border-white/30 backdrop-blur-xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/40', className)}>
+    <Card className={cn('bg-white/30 text-gray-800 border-white/40 backdrop-blur-2xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/50', className)}>
       {children}
     </Card>
   );
