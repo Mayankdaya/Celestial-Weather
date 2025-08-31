@@ -4,7 +4,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -140,7 +140,7 @@ export function WeatherPage() {
                           <InfoCard icon={<Droplets className="w-6 h-6"/>} title="Humidity" value={`${weather.current.humidity}%`} />
                           <InfoCard icon={<Wind className="w-6 h-6"/>} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
                           <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
-                          <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°`} />
+                          <InfoCard icon={<Thermometer className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°`} />
                       </div>
                   </section>
                 </GlassmorphismCard>
@@ -209,7 +209,8 @@ export function WeatherPage() {
                               <div className="grid grid-cols-2 gap-4">
                                   <InfoCard icon={<Eye className="w-6 h-6"/>} title="Visibility" value={`${weather.current.visibility} km`} />
                                   <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
-                                  <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} variant="warning" />
+                                  <InfoCard icon={<Sun className="w-6 h-6 text-yellow-400"/>} title="UV Index" value={weather.current.uv.toString()} variant="warning" />
+                                  <InfoCard icon={<Thermometer className="w-6 h-6"/>} title="Dew Point" value={`${weather.current.dewPoint}°`} />
                                   <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
                                   <InfoCard icon={<>PM2.5</>} title="PM2.5" value={weather.airQuality.pm25.toString()} />
                                   <InfoCard icon={<>O₃</>} title="Ozone" value={weather.airQuality.ozone.toString()} />
@@ -217,8 +218,8 @@ export function WeatherPage() {
                           </GlassmorphismCard>
                           <GlassmorphismCard className="p-4">
                               <div className="grid grid-cols-2 gap-4">
-                                 <InfoCard icon={<Sunrise className="w-8 h-8"/>} title="Sunrise" value={weather.current.sunrise} variant="warning" />
-                                 <InfoCard icon={<Sunset className="w-8 h-8"/>} title="Sunset" value={weather.current.sunset} variant="warning" />
+                                 <InfoCard icon={<Sunrise className="w-8 h-8 text-yellow-400"/>} title="Sunrise" value={weather.current.sunrise} variant="warning" />
+                                 <InfoCard icon={<Sunset className="w-8 h-8 text-yellow-400"/>} title="Sunset" value={weather.current.sunset} variant="warning" />
                               </div>
                           </GlassmorphismCard>
                        </div>

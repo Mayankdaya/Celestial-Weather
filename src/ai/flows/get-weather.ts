@@ -29,7 +29,7 @@ const prompt = ai.definePrompt({
     output: { schema: WeatherDataSchema },
     prompt: `You are a weather API. Given a city, provide the current weather, a 5-day forecast, hourly forecast, and air quality.
     
-    Provide detailed current conditions including: temperature, condition, humidity, wind speed in M/s, wind direction, feels like temperature, pressure in hPa, visibility in km, UV index, sunrise time (e.g., '6:30 AM'), and sunset time (e.g., '7:45 PM').
+    Provide detailed current conditions including: temperature, condition, humidity, wind speed in M/s, wind direction, feels like temperature, pressure in hPa, visibility in km, UV index, sunrise time (e.g., '6:30 AM'), sunset time (e.g., '7:45 PM'), and dew point.
     You must also provide the current date, formatted like 'Wed, 07 Aug'.
     For all 'iconUrl' fields, you must use realistic weather condition image URLs from 'https://openweathermap.org/img/wn/'. For example: 'https://openweathermap.org/img/wn/01d@4x.png' for a clear day. Use the @4x version for high resolution.
     
@@ -79,6 +79,7 @@ const getWeatherFlow = ai.defineFlow(
                     uv: 0,
                     sunrise: 'N/A',
                     sunset: 'N/A',
+                    dewPoint: 0,
                 },
                 forecast: Array(5).fill({ day: 'N/A', temperature: 0, minTemperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png', chanceOfRain: 0 }),
                 hourly: Array(7).fill({ time: 'N/A', temperature: 0, apparentTemperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png' }),

@@ -16,6 +16,7 @@ export const WeatherDataSchema = z.object({
     uv: z.number().describe('UV index.'),
     sunrise: z.string().describe("Sunrise time, e.g., '6:30 AM'."),
     sunset: z.string().describe("Sunset time, e.g., '7:45 PM'."),
+    dewPoint: z.number().describe('Dew point temperature in Celsius.'),
   }),
   forecast: z.array(
     z.object({
