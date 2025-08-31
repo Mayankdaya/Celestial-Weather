@@ -482,7 +482,7 @@ export function WeatherPage() {
                 </GlassmorphismCard>
               </div>
             ) : (!weather && !isPending && (
-              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
+              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground w-full">
                 <GlassmorphismCard className='p-8 max-w-md w-full'>
                   <div className='mb-4'>
                     <p className='text-5xl font-bold'>{time}</p>
