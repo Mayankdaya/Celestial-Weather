@@ -1,4 +1,3 @@
-
 <div align="center">
 
 # 🌦️ Celestial Weather 🌦️
