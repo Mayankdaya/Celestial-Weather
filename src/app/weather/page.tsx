@@ -5,7 +5,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer, Bike, Mountain, Leaf, Home } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Wind, Sun, Compass, Thermometer, Bike, Mountain, Leaf, Home } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ import { Card } from '@/components/ui/card';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import Link from 'next/link';
+import { SunriseIcon } from '@/components/icons/sunrise-icon';
+import { SunsetIcon } from '@/components/icons/sunset-icon';
 
 export default function WeatherPage() {
   const [city, setCity] = useState('');
@@ -250,8 +252,8 @@ export default function WeatherPage() {
                           </GlassmorphismCard>
                           <GlassmorphismCard className="p-4">
                               <div className="grid grid-cols-2 gap-4">
-                                 <InfoCard icon={<Sunrise className="w-8 h-8 text-yellow-400"/>} title="Sunrise" value={weather.current.sunrise} variant="warning" />
-                                 <InfoCard icon={<Sunset className="w-8 h-8 text-yellow-400"/>} title="Sunset" value={weather.current.sunset} variant="warning" />
+                                 <InfoCard icon={<SunriseIcon className="w-8 h-8"/>} title="Sunrise" value={weather.current.sunrise} variant="warning" />
+                                 <InfoCard icon={<SunsetIcon className="w-8 h-8"/>} title="Sunset" value={weather.current.sunset} variant="warning" />
                               </div>
                           </GlassmorphismCard>
                        </div>
