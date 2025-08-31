@@ -9,7 +9,7 @@ import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip as RechartsTooltip } from 'recharts';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 export function WeatherPage() {
@@ -138,7 +138,7 @@ export function WeatherPage() {
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                           <InfoCard icon={<Droplets className="w-6 h-6"/>} title="Humidity" value={`${weather.current.humidity}%`} />
                           <InfoCard icon={<Wind className="w-6 h-6"/>} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
-                          <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
+                          <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
                           <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°`} />
                       </div>
                   </section>
@@ -154,7 +154,7 @@ export function WeatherPage() {
                                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                                   <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.4)" fontSize={12} tickLine={false} axisLine={false} />
                                   <YAxis stroke="rgba(255, 255, 255, 0.4)" fontSize={12} unit="°" tickLine={false} axisLine={false} />
-                                  <RechartsTooltip 
+                                  <ChartTooltip 
                                       content={<ChartTooltipContent />} 
                                       cursor={{fill: 'rgba(255,255,255,0.1)'}}
                                       contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px'}}
@@ -205,7 +205,7 @@ export function WeatherPage() {
                               <h3 className="text-lg font-semibold mb-2 text-white">ADDITIONAL DETAILS</h3>
                               <div className="grid grid-cols-2 gap-4">
                                   <InfoCard icon={<Eye className="w-6 h-6"/>} title="Visibility" value={`${weather.current.visibility} km`} />
-                                  <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
+                                  <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
                                   <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} variant="warning" />
                                   <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
                               </div>
