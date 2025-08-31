@@ -14,11 +14,12 @@ import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 const getIcon = (condition: string, width = 64, height = 64) => {
     const iconProps = { width, height, className: 'aspect-square' };
-    if (condition.includes('Cloud')) return <Image alt="cloudy" src="https://cdn.weatherapi.com/weather/64x64/day/116.png" {...iconProps} data-ai-hint="cloudy" />;
-    if (condition.includes('Rain')) return <Image alt="rain" src="https://cdn.weatherapi.com/weather/64x64/day/302.png" {...iconProps} data-ai-hint="rain" />;
-    if (condition.includes('Snow')) return <Image alt="snow" src="https://cdn.weatherapi.com/weather/64x64/day/332.png" {...iconProps} data-ai-hint="snow" />;
-    if (condition.includes('Clear') || condition.includes('Sunny')) return <Image alt="sun" src="https://cdn.weatherapi.com/weather/64x64/day/113.png" {...iconProps} data-ai-hint="sun" />;
-    return <Image alt="sun" src="https://cdn.weatherapi.com/weather/64x64/day/113.png" {...iconProps} data-ai-hint="weather" />;
+    const baseUrl = 'https://cdn.weatherapi.com/weather/128x128/day/';
+    if (condition.includes('Cloud')) return <Image alt="cloudy" src={`${baseUrl}116.png`} {...iconProps} data-ai-hint="cloudy" />;
+    if (condition.includes('Rain')) return <Image alt="rain" src={`${baseUrl}302.png`} {...iconProps} data-ai-hint="rain" />;
+    if (condition.includes('Snow')) return <Image alt="snow" src={`${baseUrl}332.png`} {...iconProps} data-ai-hint="snow" />;
+    if (condition.includes('Clear') || condition.includes('Sunny')) return <Image alt="sun" src={`${baseUrl}113.png`} {...iconProps} data-ai-hint="sun" />;
+    return <Image alt="sun" src={`${baseUrl}113.png`} {...iconProps} data-ai-hint="weather" />;
 }
 
 export function WeatherPage() {
