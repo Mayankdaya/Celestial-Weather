@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import Link from 'next/link';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -119,7 +120,9 @@ export function WeatherPage() {
             <header className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
                 <div className="flex items-center gap-2">
                   <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
-                  <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">Weather Dashboard</h1>
+                   <Link href="/" className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">
+                    <h1>Weather Dashboard</h1>
+                  </Link>
                 </div>
 
                 <div className="relative flex w-full sm:max-w-xs">
