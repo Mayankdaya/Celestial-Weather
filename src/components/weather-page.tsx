@@ -4,7 +4,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Cloud, CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Snowflake, Thermometer, Briefcase, Compass } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -50,8 +50,8 @@ export function WeatherPage() {
   );
 
   const InfoCard = ({ icon, title, value, subValue }: { icon: React.ReactNode, title: string, value: string, subValue?: string }) => (
-    <Card className="bg-black/20 p-4 rounded-2xl flex items-center gap-4 border-white/10">
-      <div className="text-gray-300">{icon}</div>
+    <Card className="bg-black/25 p-4 rounded-2xl flex flex-col items-center justify-center text-center border-white/10 h-full">
+      <div className="text-gray-300 mb-2">{icon}</div>
       <div>
         <p className="text-sm text-gray-300">{title}</p>
         <p className="font-bold text-lg">{value}</p>
@@ -61,14 +61,14 @@ export function WeatherPage() {
   );
 
   return (
-    <main className="flex min-h-screen w-full items-center justify-center p-4">
-      <GlassmorphismCard className="w-full max-w-6xl p-6 space-y-6">
-        <div className="flex justify-between items-center gap-4">
-            <h1 className="text-2xl font-bold text-white flex items-center gap-2"><Briefcase /> Weather Dashboard</h1>
+    <main className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-6xl space-y-6">
+        <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 className="text-2xl font-bold text-white">Weather Dashboard</h1>
             <div className="relative w-full max-w-xs">
               <Input
                 type="text"
-                placeholder="Search City..."
+                placeholder="Search for a city..."
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -78,57 +78,53 @@ export function WeatherPage() {
                 {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
               </Button>
             </div>
-        </div>
-
-        { isPending && !weather && (
-           <div className="flex flex-col items-center justify-center h-[600px]">
-            <Loader2 className="h-10 w-10 animate-spin text-white" />
-           </div>
-        )}
+        </header>
         
-        { error && !isPending && (
-          <div className="flex flex-col items-center justify-center h-[600px] text-center">
-            <CloudRain className="h-16 w-16 text-gray-300" />
-            <p className="mt-4 font-medium text-white">{error}</p>
-          </div>
-        )}
+        <GlassmorphismCard className="w-full p-6">
+            { isPending && !weather && (
+               <div className="flex flex-col items-center justify-center h-[600px]">
+                <Loader2 className="h-10 w-10 animate-spin text-white" />
+                <p className="mt-4 text-white">Fetching weather data...</p>
+               </div>
+            )}
+            
+            { error && !isPending && (
+              <div className="flex flex-col items-center justify-center h-[600px] text-center">
+                <CloudRain className="h-16 w-16 text-gray-300" />
+                <p className="mt-4 font-medium text-white">{error}</p>
+              </div>
+            )}
 
-        { weather && !isPending && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in-50 duration-500">
-            {/* Left Column */}
-            <div className="md:col-span-1 space-y-6">
-                <div className="flex flex-col items-center text-center">
-                    {weather.current.iconUrl && <Image alt={weather.current.condition} src={weather.current.iconUrl} width={160} height={160} className="w-40 h-40" />}
-                    <p className="text-8xl font-bold tracking-tighter">{weather.current.temperature}°</p>
-                    <p className="text-2xl font-medium text-gray-200">{weather.current.condition}</p>
-                    <div className="flex items-center gap-2 mt-4">
-                        <MapPin className="h-5 w-5" />
-                        <p className="text-xl font-bold">{weather.current.city}</p>
+            { weather && !isPending && (
+              <div className="animate-in fade-in-50 duration-500 space-y-8">
+                {/* Main Weather Info */}
+                <section className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                        <div className="flex items-center gap-2">
+                           <MapPin className="h-6 w-6" />
+                           <h2 className="text-3xl font-bold">{weather.current.city}</h2>
+                        </div>
+                        <p className="text-lg text-gray-300">{weather.current.date}</p>
+                        <div className="flex items-center gap-4 mt-4">
+                            {weather.current.iconUrl && <Image alt={weather.current.condition} src={weather.current.iconUrl} width={100} height={100} className="w-24 h-24" />}
+                            <div>
+                                <p className="text-7xl font-bold tracking-tighter">{weather.current.temperature}°</p>
+                                <p className="text-2xl font-medium text-gray-200">{weather.current.condition}</p>
+                            </div>
+                        </div>
                     </div>
-                    <p className="text-sm text-gray-300 mt-1">{weather.current.date}</p>
-                </div>
-                
-                <div className="border-t border-white/20" />
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <InfoCard icon={<Droplets className="w-6 h-6"/>} title="Humidity" value={`${weather.current.humidity}%`} />
+                        <InfoCard icon={<Wind className="w-6 h-6"/>} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
+                        <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
+                        <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°`} />
+                    </div>
+                </section>
 
-                <div className="grid grid-cols-5 gap-2">
-                  {weather.forecast.map((day, index) => (
-                    <div key={index} className="flex flex-col items-center p-2 bg-black/20 border-white/10 rounded-2xl text-center">
-                      <p className="text-xs font-semibold">{day.day}</p>
-                      {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={40} height={40} className="my-1 w-10 h-10" />}
-                      <p className="font-bold text-base">{day.temperature}°</p>
-                      <div className="flex items-center gap-1 text-xs text-gray-400 mt-1">
-                          <CloudRain className="w-3 h-3"/>
-                          <span>{day.chanceOfRain}%</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-            </div>
-            {/* Right Column */}
-            <div className="md:col-span-2 space-y-6">
-                <div>
-                    <h2 className="text-lg font-semibold mb-2 text-white">HOURLY FORECAST</h2>
-                    <Card className="bg-black/20 p-4 rounded-2xl border-white/10">
+                {/* Hourly Forecast */}
+                <section>
+                    <h3 className="text-lg font-semibold mb-2 text-white">HOURLY FORECAST</h3>
+                    <div className="bg-black/20 p-4 rounded-2xl border-white/10">
                       <ChartContainer config={{}} className="h-[150px] w-full">
                           <ResponsiveContainer width="100%" height="100%">
                               <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
@@ -144,33 +140,50 @@ export function WeatherPage() {
                               </LineChart>
                           </ResponsiveContainer>
                       </ChartContainer>
-                    </Card>
-                </div>
-                <div>
-                    <h2 className="text-lg font-semibold mb-2 text-white">MORE DETAILS</h2>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <InfoCard icon={<Thermometer className="w-6 h-6"/>} title="Feels Like" value={`${weather.current.feelsLike}°C`} />
-                        <InfoCard icon={<Droplets className="w-6 h-6"/>} title="Humidity" value={`${weather.current.humidity}%`} />
-                        <InfoCard icon={<Wind className="w-6 h-6"/>} title="Wind Speed" value={`${weather.current.windSpeed} M/s`} />
-                        <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
-                        <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
-                        <InfoCard icon={<Eye className="w-6 h-6"/>} title="Visibility" value={`${weather.current.visibility} km`} />
-                        <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} />
-                        <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+                    </div>
+                </section>
 
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* 5-Day Forecast */}
+                    <section>
+                         <h3 className="text-lg font-semibold mb-2 text-white">5-DAY FORECAST</h3>
+                         <div className="space-y-2">
+                           {weather.forecast.map((day, index) => (
+                             <div key={index} className="flex items-center justify-between p-3 bg-black/20 border-white/10 rounded-lg">
+                               <p className="font-semibold w-1/4">{day.day}</p>
+                               <div className="flex items-center gap-2 w-1/4">
+                                   {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={32} height={32} />}
+                                   <p className="text-sm text-gray-300 hidden sm:block">{day.condition}</p>
+                               </div>
+                               <div className="flex items-center gap-1 text-sm text-gray-300 w-1/4 justify-center">
+                                   <CloudRain className="w-4 h-4"/>
+                                   <span>{day.chanceOfRain}%</span>
+                               </div>
+                               <p className="font-bold text-lg w-1/4 text-right">{day.temperature}°</p>
+                             </div>
+                           ))}
+                         </div>
+                    </section>
+                    
+                    {/* More Details */}
+                    <section>
+                        <h3 className="text-lg font-semibold mb-2 text-white">ADDITIONAL DETAILS</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                            <InfoCard icon={<Eye className="w-6 h-6"/>} title="Visibility" value={`${weather.current.visibility} km`} />
+                            <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} />
+                             <InfoCard icon={<Gauge className="w-6 h-6"/>} title="Pressure" value={`${weather.current.pressure} hPa`} />
+                            <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+                            <div className="col-span-2 grid grid-cols-2 gap-4">
+                               <InfoCard icon={<Sunrise className="w-8 h-8"/>} title="Sunrise" value={weather.current.sunrise} />
+                               <InfoCard icon={<Sunset className="w-8 h-8"/>} title="Sunset" value={weather.current.sunset} />
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                 <div>
-                    <h2 className="text-lg font-semibold mb-2 text-white">SUNRISE & SUNSET</h2>
-                     <div className="grid grid-cols-2 gap-4">
-                        <InfoCard icon={<Sunrise className="w-8 h-8"/>} title="Sunrise" value={weather.current.sunrise} />
-                        <InfoCard icon={<Sunset className="w-8 h-8"/>} title="Sunset" value={weather.current.sunset} />
-                    </div>
-                </div>
-            </div>
-          </div>
-        )}
-      </GlassmorphismCard>
+              </div>
+            )}
+        </GlassmorphismCard>
+      </div>
     </main>
   );
 }
