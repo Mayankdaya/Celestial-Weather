@@ -9,6 +9,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
+import { googleAI } from '@genkit-ai/googleai';
 
 const GetWeatherImageInputSchema = z.object({
   city: z.string().describe('The name of the city.'),
@@ -26,14 +27,29 @@ export async function getWeatherImage(input: GetWeatherImageInput): Promise<GetW
 }
 
 const getWeatherImageFlow = ai.defineFlow(
-    {
-        name: 'getWeatherImageFlow',
-        inputSchema: GetWeatherImageInputSchema,
-        outputSchema: GetWeatherImageOutputSchema,
-    },
-    async (input) => {
-        // Using a placeholder image service to avoid API billing issues and provide consistent images.
-        const imageUrl = `https://picsum.photos/seed/${input.city}/1280/720`;
-        return { imageUrl };
+  {
+    name: 'getWeatherImageFlow',
+    inputSchema: GetWeatherImageInputSchema,
+    outputSchema: GetWeatherImageOutputSchema,
+  },
+  async ({ city, condition }) => {
+    const prompt = `A beautiful, serene, atmospheric, and photorealistic image of the city of ${city} during a time with ${condition} weather.`;
+
+    const { media } = await ai.generate({
+      model: googleAI.model('imagen-4.0-fast-generate-001'),
+      prompt,
+      config: {
+        aspectRatio: '16:9',
+      },
+    });
+
+    const imageUrl = media.url;
+
+    if (!imageUrl) {
+      // Fallback to a placeholder if image generation fails
+      return { imageUrl: `https://picsum.photos/seed/${city}/1280/720` };
     }
+
+    return { imageUrl };
+  }
 );
