@@ -470,10 +470,16 @@ export function WeatherPage() {
               </div>
             ) : (!weather && !isPending && (
               <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
-                <GlassmorphismCard className='p-8'>
+                <GlassmorphismCard className='p-8 max-w-md w-full'>
                   <Sun className="h-20 w-20 mx-auto text-foreground" />
-                  <p className="mt-4 text-base text-foreground">Enter a city to get the weather forecast.</p>
-                  <p className="text-xs text-muted-foreground">e.g. London, New York, Tokyo</p>
+                  <p className="mt-4 text-base text-foreground">Welcome! Enter a city to get the forecast, or select one below.</p>
+                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {majorCities.slice(0, 6).map((c) => (
+                      <Button key={c} variant='ghost' onClick={() => { setCity(c); handleSearch(c); }} className='bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-foreground'>
+                        {c}
+                      </Button>
+                    ))}
+                  </div>
                 </GlassmorphismCard>
               </div>
             ))}
