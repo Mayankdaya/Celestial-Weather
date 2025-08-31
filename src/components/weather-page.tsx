@@ -4,7 +4,7 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Thermometer, Bike, Mountain, Leaf } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -166,7 +166,7 @@ export function WeatherPage() {
                               </LineChart>
                           </ChartContainer>
                         </div>
-                        <div className="grid grid-cols-7 gap-2 mt-4">
+                        <div className="grid grid-cols-4 sm:grid-cols-7 gap-2 mt-4">
                           {weather.hourly.map((hour, index) => (
                             <div key={index} className="flex flex-col items-center justify-center p-2 bg-black/20 rounded-lg">
                               <Image src={hour.iconUrl} alt={hour.condition} width={40} height={40} />
@@ -184,17 +184,17 @@ export function WeatherPage() {
                             <h3 className="text-lg font-semibold mb-2 text-white">5-DAY FORECAST</h3>
                              <div className="space-y-2">
                                {weather.forecast.map((day, index) => (
-                                 <div key={index} className="flex items-center justify-between p-3 bg-black/20 border-white/10 rounded-lg">
-                                   <p className="font-semibold w-1/4">{day.day}</p>
-                                   <div className="flex items-center gap-2 w-1/4">
+                                 <div key={index} className="flex flex-wrap items-center justify-between p-3 bg-black/20 border-white/10 rounded-lg gap-2">
+                                   <p className="font-semibold w-full sm:w-1/4">{day.day}</p>
+                                   <div className="flex items-center gap-2 w-1/2 sm:w-1/4">
                                        {day.iconUrl && <Image alt={day.condition} src={day.iconUrl} width={32} height={32} />}
                                        <p className="text-sm text-gray-300 hidden sm:block">{day.condition}</p>
                                    </div>
-                                   <div className="flex items-center gap-1 text-sm text-gray-300 w-1/4 justify-center">
+                                   <div className="flex items-center gap-1 text-sm text-gray-300 w-1/2 sm:w-1/4 justify-start sm:justify-center">
                                        <CloudRain className="w-4 h-4"/>
                                        <span>{day.chanceOfRain}%</span>
                                    </div>
-                                   <p className="font-bold text-lg w-1/4 text-right">{day.minTemperature}° / {day.temperature}°</p>
+                                   <p className="font-bold text-lg w-full sm:w-1/4 text-left sm:text-right">{day.minTemperature}° / {day.temperature}°</p>
                                  </div>
                                ))}
                              </div>
@@ -202,7 +202,31 @@ export function WeatherPage() {
                     </section>
                     
                     {/* More Details */}
-                    <section className="md:col-span-2">
+                    <section className="md:col-span-2 space-y-4">
+                       <GlassmorphismCard className="p-4">
+                            <h3 className="text-lg font-semibold mb-2 text-white">SUGGESTIONS</h3>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Bike className="w-5 h-5" />
+                                        <h4 className="font-semibold">Activities</h4>
+                                    </div>
+                                    <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
+                                        {weather.suggestions.activities.map((item, i) => <li key={i}>{item}</li>)}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <Mountain className="w-5 h-5" />
+                                        <h4 className="font-semibold">Places to Visit</h4>
+                                    </div>
+                                     <ul className="list-disc list-inside text-gray-300 text-sm space-y-1">
+                                        {weather.suggestions.placesToVisit.map((item, i) => <li key={i}>{item}</li>)}
+                                    </ul>
+                                </div>
+                            </div>
+                        </GlassmorphismCard>
+                       
                        <div className="space-y-4">
                           <GlassmorphismCard className="p-4">
                               <h3 className="text-lg font-semibold mb-2 text-white">ADDITIONAL DETAILS</h3>
@@ -212,6 +236,7 @@ export function WeatherPage() {
                                   <InfoCard icon={<Sun className="w-6 h-6 text-yellow-400"/>} title="UV Index" value={weather.current.uv.toString()} variant="warning" />
                                   <InfoCard icon={<Thermometer className="w-6 h-6"/>} title="Dew Point" value={`${weather.current.dewPoint}°`} />
                                   <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+                                  <InfoCard icon={<Leaf className="w-6 h-6" />} title="Pollen" value={weather.pollen.level} subValue={weather.pollen.primaryType} />
                                   <InfoCard icon={<>PM2.5</>} title="PM2.5" value={weather.airQuality.pm25.toString()} />
                                   <InfoCard icon={<>O₃</>} title="Ozone" value={weather.airQuality.ozone.toString()} />
                               </div>

@@ -43,4 +43,13 @@ export const WeatherDataSchema = z.object({
     pm25: z.number().describe('PM2.5 particle level.'),
     ozone: z.number().describe('Ozone (O3) level.'),
   }),
+  pollen: z.object({
+    level: z.string().describe('The overall pollen level category (e.g., "Low", "Moderate", "High").'),
+    value: z.number().describe('A numeric value for the pollen level.'),
+    primaryType: z.string().describe('The primary type of pollen (e.g., "Tree", "Grass", "Weed").'),
+  }),
+  suggestions: z.object({
+    activities: z.array(z.string()).describe('A list of 3-5 suggested activities suitable for the current weather.'),
+    placesToVisit: z.array(z.string()).describe('A list of 3-5 suggested types of places to visit suitable for the current weather (e.g., "Museums", "Parks").'),
+  }),
 });
