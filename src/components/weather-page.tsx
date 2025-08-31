@@ -4,13 +4,13 @@
 import { useState, useTransition, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass, Briefcase } from 'lucide-react';
+import { CloudRain, Droplets, Eye, Gauge, Loader2, MapPin, Search, Sunrise, Sunset, Wind, Sun, Compass } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Card } from '@/components/ui/card';
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { ChartConfig, ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 export function WeatherPage() {
   const [city, setCity] = useState('');
@@ -65,8 +65,12 @@ export function WeatherPage() {
 
   const chartConfig = {
     temperature: {
-      label: "Temperature",
-      color: "#8884d8",
+      label: "Temp",
+      color: "hsl(var(--chart-1))",
+    },
+    apparentTemperature: {
+      label: "Feels Like",
+      color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
@@ -74,10 +78,7 @@ export function WeatherPage() {
     <main className="flex min-h-screen w-full items-start justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-6xl space-y-6">
         <header className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-3">
-              <Briefcase className="h-7 w-7 text-white" />
-              <h1 className="text-2xl font-bold text-white">Weather Dashboard</h1>
-            </div>
+            <h1 className="text-2xl font-bold text-white">Weather Dashboard</h1>
             <div className="relative w-full max-w-xs">
               <Input
                 type="text"
@@ -148,18 +149,20 @@ export function WeatherPage() {
                 <GlassmorphismCard className="p-6">
                     <section>
                         <h3 className="text-lg font-semibold mb-4 text-white">HOURLY FORECAST</h3>
-                        <div className="h-[120px]">
+                        <div className="h-[150px]">
                           <ChartContainer config={chartConfig} className="h-full w-full">
                               <LineChart data={weather.hourly} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                                   <XAxis dataKey="time" stroke="rgba(255, 255, 255, 0.4)" fontSize={12} tickLine={false} axisLine={false} />
                                   <YAxis stroke="rgba(255, 255, 255, 0.4)" fontSize={12} unit="°" tickLine={false} axisLine={false} />
-                                  <ChartTooltip 
+                                  <Tooltip 
                                       content={<ChartTooltipContent />} 
                                       cursor={{fill: 'rgba(255,255,255,0.1)'}}
                                       contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '10px'}}
                                   />
-                                  <Line type="monotone" dataKey="temperature" stroke="#8884d8" strokeWidth={2} dot={{r:4, fill: '#8884d8'}} activeDot={{r:6}} name="Temp"/>
+                                  <Legend />
+                                  <Line type="monotone" dataKey="temperature" stroke="var(--color-temperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-temperature)'}} activeDot={{r:6}} name="Temp"/>
+                                  <Line type="monotone" dataKey="apparentTemperature" stroke="var(--color-apparentTemperature)" strokeWidth={2} dot={{r:4, fill: 'var(--color-apparentTemperature)'}} activeDot={{r:6}} name="Feels Like"/>
                               </LineChart>
                           </ChartContainer>
                         </div>
@@ -191,7 +194,7 @@ export function WeatherPage() {
                                        <CloudRain className="w-4 h-4"/>
                                        <span>{day.chanceOfRain}%</span>
                                    </div>
-                                   <p className="font-bold text-lg w-1/4 text-right">{day.temperature}°</p>
+                                   <p className="font-bold text-lg w-1/4 text-right">{day.minTemperature}° / {day.temperature}°</p>
                                  </div>
                                ))}
                              </div>
@@ -208,6 +211,8 @@ export function WeatherPage() {
                                   <InfoCard icon={<Compass className="w-6 h-6"/>} title="Direction" value={weather.current.windDirection} />
                                   <InfoCard icon={<Sun className="w-6 h-6"/>} title="UV Index" value={weather.current.uv.toString()} variant="warning" />
                                   <InfoCard icon={<Wind className="w-6 h-6"/>} title="AQI" value={weather.airQuality.aqi.toString()} subValue={weather.airQuality.category} />
+                                  <InfoCard icon={<>PM2.5</>} title="PM2.5" value={weather.airQuality.pm25.toString()} />
+                                  <InfoCard icon={<>O₃</>} title="Ozone" value={weather.airQuality.ozone.toString()} />
                               </div>
                           </GlassmorphismCard>
                           <GlassmorphismCard className="p-4">

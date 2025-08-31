@@ -35,11 +35,11 @@ const prompt = ai.definePrompt({
     
     City: {{{city}}}
 
-    For the 5-day forecast, provide it for the next 5 days, starting with tomorrow. Use realistic weather conditions, temperatures, and chance of rain for the given city. The date should be formatted like 'Aug 08'.
+    For the 5-day forecast, provide it for the next 5 days, starting with tomorrow. For each day, provide the max and min temperatures. Use realistic weather conditions, temperatures, and chance of rain for the given city. The date should be formatted like 'Aug 08'.
 
-    For the hourly forecast, provide it for the next 7 hours, starting from the current hour. The time should be formatted like '3PM', '4PM', etc. Also include an icon for each hour.
+    For the hourly forecast, provide it for the next 7 hours, starting from the current hour. Include temperature and apparentTemperature for each hour. The time should be formatted like '3PM', '4PM', etc. Also include an icon for each hour.
     
-    For air quality, provide the AQI value and a descriptive category (e.g., 'Good', 'Moderate').
+    For air quality, provide the AQI value, a descriptive category (e.g., 'Good', 'Moderate'), and values for PM2.5 and Ozone (O3).
     `,
 });
 
@@ -80,9 +80,9 @@ const getWeatherFlow = ai.defineFlow(
                     sunrise: 'N/A',
                     sunset: 'N/A',
                 },
-                forecast: Array(5).fill({ day: 'N/A', temperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png', chanceOfRain: 0 }),
-                hourly: Array(7).fill({ time: 'N/A', temperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png' }),
-                airQuality: { aqi: 0, category: 'Error' },
+                forecast: Array(5).fill({ day: 'N/A', temperature: 0, minTemperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png', chanceOfRain: 0 }),
+                hourly: Array(7).fill({ time: 'N/A', temperature: 0, apparentTemperature: 0, condition: 'Error', iconUrl: 'https://openweathermap.org/img/wn/01d@4x.png' }),
+                airQuality: { aqi: 0, category: 'Error', pm25: 0, ozone: 0 },
             };
         }
     }

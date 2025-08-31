@@ -20,7 +20,8 @@ export const WeatherDataSchema = z.object({
   forecast: z.array(
     z.object({
       day: z.string().describe("Day of the week and date, e.g., 'Aug 08'."),
-      temperature: z.number().describe('Predicted temperature in Celsius.'),
+      temperature: z.number().describe('Predicted max temperature in Celsius.'),
+      minTemperature: z.number().describe('Predicted min temperature in Celsius.'),
       condition: z.string().describe('Predicted condition (e.g., Clear, Clouds, Rain, Snow).'),
       iconUrl: z.string().url().describe('A URL to an icon representing the forecast condition.'),
       chanceOfRain: z.number().describe('The chance of rain in percent for that day.'),
@@ -30,6 +31,7 @@ export const WeatherDataSchema = z.object({
     z.object({
       time: z.string().describe("Hour of the day, e.g., '3PM', '4PM'."),
       temperature: z.number().describe('Predicted temperature in Celsius.'),
+      apparentTemperature: z.number().describe('Predicted "feels like" temperature in Celsius.'),
       condition: z.string().describe('Predicted condition.'),
       iconUrl: z.string().url().describe('A URL to an icon representing the hourly condition.'),
     })
@@ -37,5 +39,7 @@ export const WeatherDataSchema = z.object({
   airQuality: z.object({
     aqi: z.number().describe('Air Quality Index value.'),
     category: z.string().describe('e.g., Good, Moderate, Unhealthy.'),
+    pm25: z.number().describe('PM2.5 particle level.'),
+    ozone: z.number().describe('Ozone (O3) level.'),
   }),
 });
