@@ -42,8 +42,6 @@ export function WeatherPage() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isPending, startTransition] = useTransition();
   const [unit, setUnit] = useState<'C' | 'F'>('C');
-  const [time, setTime] = useState('');
-  const [date, setDate] = useState('');
 
   const handleSearch = (searchCity: string) => {
     if (!searchCity) return;
@@ -60,14 +58,16 @@ export function WeatherPage() {
   }, []);
 
   useEffect(() => {
-    const updateDateTime = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-      setDate(now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+    const handleMouseMove = (event: MouseEvent) => {
+      document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
     };
-    updateDateTime();
-    const timerId = setInterval(updateDateTime, 1000);
-    return () => clearInterval(timerId);
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   const convertToF = (celsius: number) => Math.round((celsius * 9/5) + 32);
@@ -114,7 +114,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/30 dark:bg-black/30 border border-white/40 dark:border-black/40 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/50 dark:hover:border-black/50', className)}>
+    <Card className={cn('bg-card dark:bg-card border border-white/20 dark:border-white/10 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/30 dark:hover:border-white/20', className)}>
       {children}
     </Card>
   );
@@ -436,28 +436,11 @@ export function WeatherPage() {
       );
     }
     
-    return (
-        <div className="flex h-full w-full items-center justify-center">
-            <GlassmorphismCard className='p-8 max-w-md w-full text-center'>
-            <div className='mb-4'>
-                <p className='text-5xl font-bold'>{time}</p>
-                <p className='text-muted-foreground'>{date}</p>
-            </div>
-            <p className="mt-4 text-base text-foreground">Welcome! Enter a city to get the forecast, or select one below.</p>
-            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {majorCities.slice(0, 6).map((c) => (
-                <Button key={c} variant='ghost' onClick={() => { setCity(c); handleSearch(c); }} className='bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 text-foreground'>
-                    {c}
-                </Button>
-                ))}
-            </div>
-            </GlassmorphismCard>
-        </div>
-    );
+    return null;
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <div className="flex h-screen w-full flex-col">
         <header className="flex shrink-0 items-center justify-between gap-4 p-4 z-20">
           <div className="flex items-center gap-2">
