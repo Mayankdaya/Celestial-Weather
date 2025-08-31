@@ -82,6 +82,7 @@ export function WeatherPage() {
   }
 
   const getProgressColor = (level: string) => {
+    if (typeof level !== 'string') return 'bg-gray-400';
     const lowerLevel = level.toLowerCase();
     if (lowerLevel.includes('low') || lowerLevel.includes('good')) return 'bg-green-500';
     if (lowerLevel.includes('moderate')) return 'bg-yellow-500';
