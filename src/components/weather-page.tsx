@@ -7,11 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer } from '@/components/ui/chart';
-import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
+import * as LucideIcons from 'lucide-react';
 
 const getIcon = (condition: string, className = "w-16 h-16") => {
     const iconProps = { className };
@@ -21,6 +22,14 @@ const getIcon = (condition: string, className = "w-16 h-16") => {
     if (condition.includes('Clear')) return <Sun {...iconProps} data-ai-hint="sun" />;
     return <Sun {...iconProps} data-ai-hint="weather" />;
 }
+
+const getActivityIcon = (iconName: string, className = "w-8 h-8") => {
+    const IconComponent = (LucideIcons as any)[iconName];
+    if (IconComponent) {
+        return <IconComponent className={className} />;
+    }
+    return <Drama className={className} />;
+};
 
 const majorCities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Dubai', 'Singapore', 'Los Angeles', 'Chicago', 'Moscow'];
 
@@ -181,6 +190,27 @@ export function WeatherPage() {
                     </div>
                     <p className={cn('text-lg font-semibold mt-2', getAqiColor(weather.current.aqi))}>{getAqiDescription(weather.current.aqi)}</p>
                   </CardContent>
+              </GlassmorphismCard>
+
+               {/* Activity Suggestions */}
+              <GlassmorphismCard className="md:col-span-2 xl:col-span-4">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
+                    <Drama />
+                    Activity Suggestions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {weather.activitySuggestions.map((activity, index) => (
+                        <div key={index} className="flex items-start gap-4 p-4 bg-white/20 rounded-lg">
+                            {getActivityIcon(activity.icon, 'w-10 h-10 text-primary shrink-0 mt-1')}
+                            <div>
+                                <h3 className="font-bold text-gray-800">{activity.name}</h3>
+                                <p className="text-sm text-gray-600">{activity.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </CardContent>
               </GlassmorphismCard>
 
               {/* Current Conditions */}
