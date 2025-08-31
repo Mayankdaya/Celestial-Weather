@@ -8,6 +8,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { WeatherDataSchema } from '@/ai/schemas/weather';
+import { GenkitError } from 'genkit';
 
 const GetWeatherSummaryOutputSchema = z.string().describe("A conversational, human-readable summary of the weather. For example: 'Expect a sunny day, but bring a jacket for the evening.'");
 export type GetWeatherSummaryOutput = z.infer<typeof GetWeatherSummaryOutputSchema>;
@@ -42,10 +43,18 @@ const getWeatherSummaryFlow = ai.defineFlow(
         outputSchema: GetWeatherSummaryOutputSchema,
     },
     async (input) => {
-        const { output } = await prompt(input);
-        if (output === null) {
-            return "Could not generate a summary at this time. Please check the detailed forecast.";
+        try {
+            const { output } = await prompt(input);
+            if (output === null) {
+                return "Could not generate a summary at this time. Please check the detailed forecast.";
+            }
+            return output;
+        } catch (e) {
+            if (e instanceof GenkitError && e.reason === 'INVALID_ARGUMENT') {
+                console.warn('AI summary generation failed validation, returning default.', e.message);
+                return "Could not generate a summary at this time. Please check the detailed forecast.";
+            }
+            throw e;
         }
-        return output;
     }
 );
