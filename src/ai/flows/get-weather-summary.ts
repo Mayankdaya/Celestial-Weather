@@ -43,6 +43,9 @@ const getWeatherSummaryFlow = ai.defineFlow(
     },
     async (input) => {
         const { output } = await prompt(input);
-        return output!;
+        if (output === null) {
+            return "Could not generate a summary at this time. Please check the detailed forecast.";
+        }
+        return output;
     }
 );
