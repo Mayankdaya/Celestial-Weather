@@ -81,7 +81,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/20 border-black/10 backdrop-blur-xl shadow-lg rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-black/20', className)}>
+    <Card className={cn('bg-white/30 dark:bg-black/30 border-white/40 dark:border-black/40 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/50 dark:hover:border-black/50', className)}>
       {children}
     </Card>
   );
@@ -89,11 +89,9 @@ export function WeatherPage() {
   return (
     <SidebarProvider>
       <div
-        className="flex min-h-screen transition-all duration-1000 bg-cover bg-center"
-        style={{ backgroundImage: `url('https://picsum.photos/1920/1080')` }}
-        data-ai-hint="abstract blue waves"
+        className="flex min-h-screen transition-all duration-1000"
       >
-        <Sidebar collapsible='icon' className='border-r border-black/10 bg-white/10 backdrop-blur-2xl'>
+        <Sidebar collapsible='icon' className='border-r border-black/10 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-xl'>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem className="p-2">
@@ -104,7 +102,7 @@ export function WeatherPage() {
               </SidebarMenuItem>
               {majorCities.map((c) => (
                 <SidebarMenuItem key={c}>
-                  <SidebarMenuButton onClick={() => { setCity(c); handleSearch(c); }} tooltip={c} isActive={weather?.current.city === c} className='text-foreground hover:bg-black/10 hover:text-foreground data-[active=true]:bg-black/20 data-[active=true]:text-foreground'>
+                  <SidebarMenuButton onClick={() => { setCity(c); handleSearch(c); }} tooltip={c} isActive={weather?.current.city === c} className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground data-[active=true]:bg-black/20 dark:data-[active=true]:bg-white/20 data-[active=true]:text-foreground'>
                     <MapPin />
                     <span>{c}</span>
                   </SidebarMenuButton>
@@ -117,7 +115,7 @@ export function WeatherPage() {
         <main className="flex-1 p-2 sm:p-4 md:p-6 z-10 overflow-y-auto">
           <header className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
               <div className="flex items-center gap-2">
-                <SidebarTrigger className='text-foreground hover:bg-black/10 hover:text-foreground' />
+                <SidebarTrigger className='text-foreground hover:bg-black/10 dark:hover:bg-white/10 hover:text-foreground' />
                 <h1 className="text-2xl sm:text-3xl font-bold text-foreground drop-shadow-lg">Weather Dashboard</h1>
               </div>
 
@@ -128,7 +126,7 @@ export function WeatherPage() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pr-20 h-11 text-base bg-white/20 border-black/20 placeholder:text-gray-600 text-foreground rounded-full focus:ring-primary focus:border-primary"
+                  className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
                 />
                 <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
                   {isPending ? <Loader2 className="animate-spin" /> : <Search />}
@@ -207,7 +205,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Grass</span>
                         <span className='font-semibold text-muted-foreground'>{weather.pollen.grass.level}</span>
                       </div>
-                      <Progress value={weather.pollen.grass.value} className="h-2 bg-black/20 [&>div]:bg-green-400" />
+                      <Progress value={weather.pollen.grass.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-green-400" />
                     </div>
                   </div>
                    <div className="flex items-center gap-4">
@@ -217,7 +215,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Weed</span>
                         <span className='font-semibold text-muted-foreground'>{weather.pollen.weed.level}</span>
                       </div>
-                      <Progress value={weather.pollen.weed.value} className="h-2 bg-black/20 [&>div]:bg-purple-400" />
+                      <Progress value={weather.pollen.weed.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-purple-400" />
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
@@ -227,7 +225,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Tree</span>
                         <span className='font-semibold text-muted-foreground'>{weather.pollen.tree.level}</span>
                       </div>
-                      <Progress value={weather.pollen.tree.value} className="h-2 bg-black/20 [&>div]:bg-amber-500" />
+                      <Progress value={weather.pollen.tree.value} className="h-2 bg-black/20 dark:bg-white/20 [&>div]:bg-amber-500" />
                     </div>
                   </div>
                 </CardContent>
@@ -247,7 +245,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Ozone (O₃)</span>
                         <span className='font-semibold text-muted-foreground'>{weather.airPollutants.ozone.level}</span>
                       </div>
-                      <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20", getProgressColor(weather.airPollutants.ozone.level))} />
+                      <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.ozone.level))} />
                     </div>
                   </div>
                    <div className="flex items-center gap-4">
@@ -256,7 +254,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Carbon Monoxide (CO)</span>
                         <span className='font-semibold text-muted-foreground'>{weather.airPollutants.carbonMonoxide.level}</span>
                       </div>
-                      <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
+                      <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
                     </div>
                   </div>
                    <div className="flex items-center gap-4">
@@ -265,7 +263,7 @@ export function WeatherPage() {
                         <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
                         <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
                       </div>
-                      <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
+                      <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
                     </div>
                   </div>
                 </CardContent>
@@ -281,7 +279,7 @@ export function WeatherPage() {
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {weather.activitySuggestions.map((activity, index) => (
-                        <div key={index} className="flex items-start gap-3 p-3 bg-black/10 rounded-lg">
+                        <div key={index} className="flex items-start gap-3 p-3 bg-black/10 dark:bg-white/10 rounded-lg">
                             {getActivityIcon(activity.icon, 'w-8 h-8 text-primary shrink-0 mt-1')}
                             <div>
                                 <h3 className="font-bold text-base">{activity.name}</h3>
@@ -435,7 +433,7 @@ export function WeatherPage() {
                 <CardContent className="grid grid-cols-1 xl:grid-cols-2 gap-4">
                   <div className="grid grid-cols-4 sm:grid-cols-7 xl:col-span-1 gap-2 text-center">
                     {weather.forecast.map((day, index) => (
-                      <div key={index} className="flex flex-col items-center p-2 bg-black/10 rounded-lg">
+                      <div key={index} className="flex flex-col items-center p-2 bg-black/10 dark:bg-white/10 rounded-lg">
                         <p className="font-semibold text-sm">{day.day.substring(0,3)}</p>
                         <div className="my-1">{getIcon(day.condition, 'w-8 h-8')}</div>
                         <p className="text-base font-bold">{day.temperature}°</p>
@@ -473,7 +471,7 @@ export function WeatherPage() {
               </GlassmorphismCard>
             </div>
           ) : (!weather && !isPending && (
-            <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-gray-500">
+            <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
               <GlassmorphismCard className='p-8'>
                 <Sun className="h-20 w-20 mx-auto text-foreground" />
                 <p className="mt-4 text-base text-foreground">Enter a city to get the weather forecast.</p>
