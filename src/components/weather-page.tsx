@@ -81,7 +81,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-white/5 text-gray-800 border-white/10 backdrop-blur-2xl shadow-xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/20', className)}>
+    <Card className={cn('bg-white/10 text-gray-800 border-white/20 backdrop-blur-3xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/30', className)}>
       {children}
     </Card>
   );
