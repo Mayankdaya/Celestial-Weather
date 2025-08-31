@@ -31,6 +31,7 @@ const prompt = ai.definePrompt({
     prompt: `You are a weather API. Given a city, provide the current weather, a 7-day forecast, a 24-hour hourly forecast, and activity suggestions.
     
     Provide detailed current conditions including: temperature, condition, humidity, wind speed, wind direction, AQI, "feels like" temperature, UV Index, visibility, pressure, sunrise, and sunset times.
+    You must also provide the latitude and longitude for the given city.
     Sunrise and sunset times should be realistic for the given city and the current date.
     Also provide a suggestion for what to wear based on the current weather.
 
@@ -80,7 +81,9 @@ const getWeatherFlow = ai.defineFlow(
                     pressure: 0,
                     outfitSuggestion: 'Could not fetch weather data.',
                     sunrise: 'N/A',
-                    sunset: 'N/A'
+                    sunset: 'N/A',
+                    lat: 0,
+                    lon: 0,
                 },
                 forecast: Array(7).fill({ day: 'N/A', temperature: 0, condition: 'Error' }),
                 hourly: Array(24).fill({ time: 'N/A', temperature: 0, condition: 'Error' }),

@@ -16,6 +16,8 @@ export const WeatherDataSchema = z.object({
     outfitSuggestion: z.string().describe('A suggestion for what to wear based on the weather.'),
     sunrise: z.string().describe('The sunrise time for the city (e.g., 6:05 AM).'),
     sunset: z.string().describe('The sunset time for the city (e.g., 8:30 PM).'),
+    lat: z.number().describe('The latitude of the city.'),
+    lon: z.number().describe('The longitude of the city.'),
   }),
   forecast: z.array(
     z.object({

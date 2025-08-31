@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer } from '@/components/ui/chart';
-import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama, Leaf, Trees, WindIcon, Flower, Sparkles } from 'lucide-react';
+import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama, Leaf, Trees, WindIcon, Flower, Sparkles, Map } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
@@ -17,6 +17,13 @@ import * as LucideIcons from 'lucide-react';
 import { Progress } from './ui/progress';
 import { Switch } from './ui/switch';
 import { Label } from './ui/label';
+import dynamic from 'next/dynamic';
+
+const WeatherMap = dynamic(() => import('./weather-map'), {
+  ssr: false,
+  loading: () => <div className="flex items-center justify-center h-full"><Loader2 className="h-10 w-10 animate-spin" /></div>
+});
+
 
 const getIcon = (condition: string, className = "w-16 h-16") => {
     const iconProps = { className };
@@ -182,7 +189,7 @@ export function WeatherPage() {
             {weather && weather.current.condition !== 'Error' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500">
                 {/* Current Weather */}
-                <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
                   <CardHeader className="flex flex-row items-start justify-between pb-2">
                     <div className='flex flex-col'>
                       <CardTitle className="text-2xl sm:text-3xl">{weather.current.city}</CardTitle>
@@ -194,6 +201,22 @@ export function WeatherPage() {
                       <p className="text-7xl sm:text-8xl font-bold">{displayTemp(weather.current.temperature)}°</p>
                       <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {displayTemp(weather.current.feelsLike)}°</p>
                   </CardContent>
+                </GlassmorphismCard>
+
+                 {/* Weather Map */}
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                            <Map /> Weather Map
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="h-64">
+                      {weather.current.lat && weather.current.lon ? (
+                        <WeatherMap lat={weather.current.lat} lon={weather.current.lon} />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-muted-foreground">Map data not available.</div>
+                      )}
+                    </CardContent>
                 </GlassmorphismCard>
 
                 {/* Outfit Suggestion */}
