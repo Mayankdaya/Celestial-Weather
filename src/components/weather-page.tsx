@@ -48,8 +48,12 @@ export function WeatherPage() {
       setSummary('');
       const weatherResult = await getWeather({ city: searchCity });
       setWeather(weatherResult);
-      const summaryResult = await getWeatherSummary(weatherResult);
-      setSummary(summaryResult);
+      if(weatherResult.current.condition !== 'Error') {
+        const summaryResult = await getWeatherSummary(weatherResult);
+        setSummary(summaryResult);
+      } else {
+        setSummary('Could not retrieve weather details. Please try again.');
+      }
     });
   };
 
@@ -78,10 +82,11 @@ export function WeatherPage() {
   }
 
   const getProgressColor = (level: string) => {
-    if (level.includes('Low') || level.includes('Good')) return 'bg-green-500';
-    if (level.includes('Moderate')) return 'bg-yellow-500';
-    if (level.includes('High')) return 'bg-orange-500';
-    if (level.includes('Very High')) return 'bg-red-500';
+    const lowerLevel = level.toLowerCase();
+    if (lowerLevel.includes('low') || lowerLevel.includes('good')) return 'bg-green-500';
+    if (lowerLevel.includes('moderate')) return 'bg-yellow-500';
+    if (lowerLevel.includes('high')) return 'bg-orange-500';
+    if (lowerLevel.includes('very high')) return 'bg-red-500';
     return 'bg-gray-400';
   }
 

@@ -46,6 +46,7 @@ const getWeatherSummaryFlow = ai.defineFlow(
         try {
             const { output } = await prompt(input);
             if (output === null) {
+                console.warn('AI summary was null, returning default.');
                 return "Could not generate a summary at this time. Please check the detailed forecast.";
             }
             return output;
@@ -54,6 +55,7 @@ const getWeatherSummaryFlow = ai.defineFlow(
                 console.warn('AI summary generation failed validation, returning default.', e.message);
                 return "Could not generate a summary at this time. Please check the detailed forecast.";
             }
+            console.error('An unexpected error occurred in getWeatherSummaryFlow:', e);
             throw e;
         }
     }

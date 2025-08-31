@@ -8,6 +8,7 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { GenkitError } from 'genkit';
 import { z } from 'genkit';
 import { WeatherDataSchema } from '@/ai/schemas/weather';
 
@@ -50,7 +51,48 @@ const getWeatherFlow = ai.defineFlow(
         outputSchema: WeatherDataSchema,
     },
     async (input) => {
-        const { output } = await prompt(input);
-        return output!;
+        try {
+            const { output } = await prompt(input);
+             if (!output) {
+                throw new Error('No output from AI model.');
+            }
+            return output;
+        } catch (e) {
+            if (e instanceof GenkitError && e.reason === 'INVALID_ARGUMENT') {
+                console.error(`Schema validation failed for city "${input.city}":`, e.message);
+            } else {
+                console.error(`An unexpected error occurred in getWeatherFlow for city "${input.city}":`, e);
+            }
+            // Return a default error structure that matches the schema
+            return {
+                current: {
+                    city: input.city,
+                    temperature: 0,
+                    condition: 'Error',
+                    humidity: 0,
+                    windSpeed: 0,
+                    windDirection: 'N/A',
+                    aqi: 0,
+                    feelsLike: 0,
+                    uvIndex: 0,
+                    visibility: 0,
+                    pressure: 0,
+                    outfitSuggestion: 'Could not fetch weather data.',
+                },
+                forecast: Array(7).fill({ day: 'N/A', temperature: 0, condition: 'Error' }),
+                hourly: Array(24).fill({ time: 'N/A', temperature: 0, condition: 'Error' }),
+                activitySuggestions: [],
+                pollen: {
+                    grass: { level: 'N/A', value: 0 },
+                    weed: { level: 'N/A', value: 0 },
+                    tree: { level: 'N/A', value: 0 },
+                },
+                airPollutants: {
+                    ozone: { level: 'N/A', value: 0 },
+                    carbonMonoxide: { level: 'N/A', value: 0 },
+                    sulfurDioxide: { level: 'N/A', value: 0 },
+                },
+            };
+        }
     }
 );
