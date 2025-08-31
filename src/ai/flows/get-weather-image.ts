@@ -33,21 +33,26 @@ const getWeatherImageFlow = ai.defineFlow(
     outputSchema: GetWeatherImageOutputSchema,
   },
   async ({ city, condition }) => {
-    const prompt = `A beautiful, serene, atmospheric, and photorealistic image of the city of ${city} during a time with ${condition} weather.`;
+    let imageUrl: string | undefined;
+    try {
+        const prompt = `A beautiful, serene, atmospheric, and photorealistic image of the city of ${city} during a time with ${condition} weather.`;
 
-    const { media } = await ai.generate({
-      model: googleAI.model('imagen-4.0-fast-generate-001'),
-      prompt,
-      config: {
-        aspectRatio: '16:9',
-      },
-    });
-
-    const imageUrl = media.url;
-
+        const { media } = await ai.generate({
+          model: googleAI.model('imagen-4.0-fast-generate-001'),
+          prompt,
+          config: {
+            aspectRatio: '16:9',
+          },
+        });
+    
+        imageUrl = media.url;
+    } catch (error) {
+        console.error('Image generation failed, falling back to placeholder.', error);
+    }
+    
     if (!imageUrl) {
       // Fallback to a placeholder if image generation fails
-      return { imageUrl: `https://picsum.photos/seed/${city}/1280/720` };
+      return { imageUrl: `https://picsum.photos/seed/${city.replace(/\s/g, '-')}/1280/720` };
     }
 
     return { imageUrl };
