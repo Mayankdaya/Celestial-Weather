@@ -70,11 +70,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(180deg, #e0f7fa 0%, #81d4fa 100%);
+    background: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--primary) / 0.2) 100%);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   .dark body {
-    background: linear-gradient(180deg, #01579b 0%, #002f6c 100%);
+     background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--primary) / 0.1) 100%);
   }
 }
