@@ -24,7 +24,6 @@ const WeatherMap = dynamic(() => import('./weather-map'), {
   loading: () => <div className="flex items-center justify-center h-full"><Loader2 className="h-10 w-10 animate-spin" /></div>
 });
 
-
 const getIcon = (condition: string, className = "w-16 h-16") => {
     const iconProps = { className };
     if (condition.includes('Cloud')) return <Cloudy {...iconProps} data-ai-hint="cloud" />;
@@ -43,6 +42,11 @@ const getActivityIcon = (iconName: string, className = "w-8 h-8") => {
 };
 
 const majorCities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Dubai', 'Singapore', 'Los Angeles', 'Chicago', 'Moscow'];
+
+// Wrapper component to ensure the map is re-mounted when lat/lon changes.
+const MapWrapper = ({ lat, lon }: { lat: number; lon: number }) => {
+  return <WeatherMap key={`${lat}-${lon}`} lat={lat} lon={lon} />;
+};
 
 export function WeatherPage() {
   const [city, setCity] = useState('');
@@ -212,7 +216,7 @@ export function WeatherPage() {
                     </CardHeader>
                     <CardContent className="h-64">
                       {weather.current.lat && weather.current.lon ? (
-                        <WeatherMap lat={weather.current.lat} lon={weather.current.lon} />
+                        <MapWrapper lat={weather.current.lat} lon={weather.current.lon} />
                       ) : (
                         <div className="flex items-center justify-center h-full text-muted-foreground">Map data not available.</div>
                       )}

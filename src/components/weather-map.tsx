@@ -16,7 +16,7 @@ const WeatherMap = ({ lat, lon }: { lat: number, lon: number }) => {
   });
 
   return (
-    <MapContainer center={[lat, lon]} zoom={7} style={{ height: '100%', width: '100%', borderRadius: '0.75rem' }} key={`${lat}-${lon}`}>
+    <MapContainer center={[lat, lon]} zoom={7} style={{ height: '100%', width: '100%', borderRadius: '0.75rem' }}>
       <LayersControl position="topright">
         <LayersControl.BaseLayer checked name="Standard">
             <TileLayer
