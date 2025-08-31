@@ -30,7 +30,8 @@ const prompt = ai.definePrompt({
     output: { schema: WeatherDataSchema },
     prompt: `You are a weather API. Given a city, provide the current weather, a 7-day forecast, a 24-hour hourly forecast, and activity suggestions.
     
-    Provide detailed current conditions including: temperature, condition, humidity, wind speed, wind direction, AQI, "feels like" temperature, UV Index, visibility, and pressure.
+    Provide detailed current conditions including: temperature, condition, humidity, wind speed, wind direction, AQI, "feels like" temperature, UV Index, visibility, pressure, sunrise, and sunset times.
+    Sunrise and sunset times should be realistic for the given city and the current date.
     Also provide a suggestion for what to wear based on the current weather.
 
     Based on the weather, suggest 3 activities suitable for the given city. For each, provide a name, a short description, and a relevant icon name from the lucide-react library. For example, for a park, use 'TreePine'; for a restaurant, use 'Utensils'.
@@ -78,6 +79,8 @@ const getWeatherFlow = ai.defineFlow(
                     visibility: 0,
                     pressure: 0,
                     outfitSuggestion: 'Could not fetch weather data.',
+                    sunrise: 'N/A',
+                    sunset: 'N/A'
                 },
                 forecast: Array(7).fill({ day: 'N/A', temperature: 0, condition: 'Error' }),
                 hourly: Array(24).fill({ time: 'N/A', temperature: 0, condition: 'Error' }),

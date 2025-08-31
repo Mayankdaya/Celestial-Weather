@@ -266,44 +266,6 @@ export function WeatherPage() {
                   </CardContent>
                 </GlassmorphismCard>
 
-                {/* Air Pollutants */}
-                 <GlassmorphismCard className="md:col-span-1 xl:col-span-2 text-foreground">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                      <WindIcon /> Air Pollutants
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-full">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className='font-medium'>Ozone (O₃)</span>
-                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.ozone.level}</span>
-                        </div>
-                        <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.ozone.level))} />
-                      </div>
-                    </div>
-                     <div className="flex items-center gap-4">
-                      <div className="w-full">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className='font-medium'>Carbon Monoxide (CO)</span>
-                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.carbonMonoxide.level}</span>
-                        </div>
-                        <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
-                      </div>
-                    </div>
-                     <div className="flex items-center gap-4">
-                      <div className="w-full">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
-                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
-                        </div>
-                        <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
-                      </div>
-                    </div>
-                  </CardContent>
-                </GlassmorphismCard>
-
                  {/* Activity Suggestions */}
                 <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
                   <CardHeader>
@@ -383,12 +345,12 @@ export function WeatherPage() {
                   <CardContent className='pt-6 flex items-center justify-around'>
                     <div className="flex flex-col items-center gap-1">
                       <Sunrise className="w-8 h-8 text-yellow-400" />
-                      <p className="text-base font-bold">6:05 AM</p>
+                      <p className="text-base font-bold">{weather.current.sunrise}</p>
                       <p className="text-xs text-muted-foreground">Sunrise</p>
                     </div>
                     <div className="flex flex-col items-center gap-1">
                       <Sunset className="w-8 h-8 text-orange-400" />
-                      <p className="text-base font-bold">8:30 PM</p>
+                      <p className="text-base font-bold">{weather.current.sunset}</p>
                       <p className="text-xs text-muted-foreground">Sunset</p>
                     </div>
                   </CardContent>
@@ -465,6 +427,43 @@ export function WeatherPage() {
                             </AreaChart>
                         </ResponsiveContainer>
                       </ChartContainer>
+                    </div>
+                  </CardContent>
+                </GlassmorphismCard>
+
+                 <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                      <WindIcon /> Air Pollutants
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Ozone (O₃)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.ozone.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.ozone.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.ozone.level))} />
+                      </div>
+                    </div>
+                     <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Carbon Monoxide (CO)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.carbonMonoxide.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.carbonMonoxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.carbonMonoxide.level))} />
+                      </div>
+                    </div>
+                     <div className="flex items-center gap-4">
+                      <div className="w-full">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className='font-medium'>Sulfur Dioxide (SO₂)</span>
+                          <span className='font-semibold text-muted-foreground'>{weather.airPollutants.sulfurDioxide.level}</span>
+                        </div>
+                        <Progress value={weather.airPollutants.sulfurDioxide.value} className={cn("h-2 bg-black/20 dark:bg-white/20", getProgressColor(weather.airPollutants.sulfurDioxide.level))} />
+                      </div>
                     </div>
                   </CardContent>
                 </GlassmorphismCard>

@@ -14,6 +14,8 @@ export const WeatherDataSchema = z.object({
     visibility: z.number().describe('Visibility in kilometers.'),
     pressure: z.number().describe('Atmospheric pressure in hPa.'),
     outfitSuggestion: z.string().describe('A suggestion for what to wear based on the weather.'),
+    sunrise: z.string().describe('The sunrise time for the city (e.g., 6:05 AM).'),
+    sunset: z.string().describe('The sunset time for the city (e.g., 8:30 PM).'),
   }),
   forecast: z.array(
     z.object({
