@@ -70,7 +70,6 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: linear-gradient(to bottom, white, #a0c8ff);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
