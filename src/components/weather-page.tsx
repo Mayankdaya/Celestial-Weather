@@ -68,7 +68,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-black/5 text-gray-800 border border-black/10 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:border-black/20', className)}>
+    <Card className={cn('bg-white/20 text-gray-800 border border-white/30 backdrop-blur-xl shadow-2xl rounded-2xl transition-all duration-300 hover:shadow-2xl hover:border-white/40', className)}>
       {children}
     </Card>
   );
@@ -265,7 +265,7 @@ export function WeatherPage() {
                     <CarouselContent className="-ml-2">
                       {weather.hourly.map((hour, index) => (
                         <CarouselItem key={index} className="pl-2 basis-1/4 sm:basis-1/6 md:basis-[12%]">
-                          <div className="flex flex-col items-center p-2 text-center bg-black/5 rounded-lg h-full justify-between gap-2">
+                          <div className="flex flex-col items-center p-2 text-center bg-white/20 rounded-lg h-full justify-between gap-2">
                             <p className="text-sm font-semibold text-gray-800">{hour.time}</p>
                             {getIcon(hour.condition, 'w-8 h-8 text-gray-800')}
                             <p className="text-lg font-bold text-gray-800">{hour.temperature}°</p>
@@ -290,7 +290,7 @@ export function WeatherPage() {
                 <CardContent className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                   <div className="grid grid-cols-4 lg:grid-cols-7 xl:col-span-1 gap-2 text-center">
                     {weather.forecast.map((day, index) => (
-                      <div key={index} className="flex flex-col items-center p-3 bg-black/5 rounded-lg">
+                      <div key={index} className="flex flex-col items-center p-3 bg-white/20 rounded-lg">
                         <p className="font-semibold text-gray-800">{day.day.substring(0,3)}</p>
                         <div className="my-2">{getIcon(day.condition, 'w-8 h-8 text-gray-800')}</div>
                         <p className="text-lg font-bold text-gray-800">{day.temperature}°</p>
