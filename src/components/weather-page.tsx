@@ -50,12 +50,12 @@ export function WeatherPage() {
   };
 
   const getAqiColor = (aqi: number) => {
-    if (aqi <= 50) return 'text-green-400';
-    if (aqi <= 100) return 'text-yellow-400';
-    if (aqi <= 150) return 'text-orange-400';
-    if (aqi <= 200) return 'text-red-400';
-    if (aqi <= 300) return 'text-purple-400';
-    return 'text-rose-500';
+    if (aqi <= 50) return 'text-green-500';
+    if (aqi <= 100) return 'text-yellow-500';
+    if (aqi <= 150) return 'text-orange-500';
+    if (aqi <= 200) return 'text-red-500';
+    if (aqi <= 300) return 'text-purple-500';
+    return 'text-rose-600';
   }
   
   const getAqiDescription = (aqi: number) => {
@@ -68,7 +68,7 @@ export function WeatherPage() {
   }
 
   const GlassmorphismCard = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-    <Card className={cn('bg-card/60 text-card-foreground border border-white/10 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:border-white/20', className)}>
+    <Card className={cn('bg-black/5 text-gray-800 border border-black/10 backdrop-blur-lg shadow-xl rounded-2xl transition-all duration-300 hover:border-black/20', className)}>
       {children}
     </Card>
   );
@@ -78,19 +78,19 @@ export function WeatherPage() {
       <div
         className="flex min-h-screen bg-cover bg-center transition-all duration-1000"
         style={{
-          backgroundImage: 'linear-gradient(to bottom right, #1e3a8a, #4c1d95, #1e293b)',
+          backgroundImage: 'linear-gradient(to bottom right, #ffffff, #f0f2f5, #e6e9ee)',
           backgroundAttachment: 'fixed',
         }}
       >
-        <div className="absolute inset-0 bg-black/40 z-0" />
+        <div className="absolute inset-0 bg-black/5 z-0" />
         
-        <Sidebar collapsible='icon' className='border-r border-white/10'>
+        <Sidebar collapsible='icon' className='border-r border-black/10 bg-white/50 backdrop-blur-xl'>
           <SidebarContent>
             <SidebarMenu>
               <SidebarMenuItem className="p-2">
                 <div className="flex items-center justify-center gap-2">
                   <Globe className="text-primary" />
-                  <span className="text-lg font-semibold text-white group-data-[collapsible=icon]:hidden">World Clock</span>
+                  <span className="text-lg font-semibold text-gray-800 group-data-[collapsible=icon]:hidden">World Clock</span>
                 </div>
               </SidebarMenuItem>
               {majorCities.map((c) => (
@@ -108,8 +108,8 @@ export function WeatherPage() {
         <main className="flex-1 p-4 sm:p-6 md:p-8 z-10 overflow-y-auto">
           <header className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
               <div className="flex items-center gap-2">
-                <SidebarTrigger className='text-white' />
-                <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg">Weather Dashboard</h1>
+                <SidebarTrigger className='text-gray-800' />
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 drop-shadow-lg">Weather Dashboard</h1>
               </div>
 
               <div className="relative flex w-full max-w-sm">
@@ -119,7 +119,7 @@ export function WeatherPage() {
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="pr-24 h-12 text-lg bg-black/20 border-white/20 placeholder:text-gray-300 text-white rounded-full focus:ring-primary focus:border-primary"
+                  className="pr-24 h-12 text-lg bg-white/50 border-gray-500/20 placeholder:text-gray-500 text-gray-800 rounded-full focus:ring-primary focus:border-primary"
                 />
                 <Button onClick={() => handleSearch()} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-10 rounded-full">
                   {isPending ? <Loader2 className="animate-spin" /> : <Search />}
@@ -129,7 +129,7 @@ export function WeatherPage() {
           </header>
 
           {(isPending && !weather) && (
-            <div className="flex items-center justify-center h-[calc(100vh-200px)] text-white">
+            <div className="flex items-center justify-center h-[calc(100vh-200px)] text-gray-800">
                 <div className='text-center'>
                   <Loader2 className="h-12 w-12 animate-spin mx-auto" />
                   <p className="mt-4 text-lg">Fetching weather...</p>
@@ -143,41 +143,41 @@ export function WeatherPage() {
               <GlassmorphismCard className="md:col-span-2 xl:col-span-2">
                 <CardHeader className="flex flex-row items-start justify-between pb-2">
                   <div className='flex flex-col'>
-                    <CardTitle className="text-3xl text-white">{weather.current.city}</CardTitle>
-                    <CardDescription className='text-lg'>{weather.current.condition}</CardDescription>
+                    <CardTitle className="text-3xl text-gray-800">{weather.current.city}</CardTitle>
+                    <CardDescription className='text-lg text-gray-600'>{weather.current.condition}</CardDescription>
                   </div>
-                  {getIcon(weather.current.condition, 'w-20 h-20 text-white drop-shadow-lg')}
+                  {getIcon(weather.current.condition, 'w-20 h-20 text-gray-800 drop-shadow-lg')}
                 </CardHeader>
                 <CardContent className='flex flex-row items-end justify-between'>
-                    <p className="text-8xl font-bold text-white">{weather.current.temperature}°</p>
-                    <p className="text-2xl text-gray-200 mb-2">Feels like {weather.current.feelsLike}°</p>
+                    <p className="text-8xl font-bold text-gray-800">{weather.current.temperature}°</p>
+                    <p className="text-2xl text-gray-600 mb-2">Feels like {weather.current.feelsLike}°</p>
                 </CardContent>
               </GlassmorphismCard>
               
               {/* Outfit Suggestion */}
               <GlassmorphismCard>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white text-xl">
+                  <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
                     <Shirt />
                     Outfit Suggestion
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-md text-gray-200">{weather.current.outfitSuggestion}</p>
+                  <p className="text-md text-gray-600">{weather.current.outfitSuggestion}</p>
                 </CardContent>
               </GlassmorphismCard>
 
               {/* Air Quality */}
               <GlassmorphismCard>
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-white text-xl">
+                    <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
                         Air Quality Index
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="flex flex-col items-center justify-center">
                     <div className='relative flex items-center justify-center w-24 h-24'>
                       <Gauge className={cn('w-24 h-24', getAqiColor(weather.current.aqi))} style={{ transform: 'scaleX(-1)' }} />
-                      <p className='absolute text-3xl font-bold text-white'>{weather.current.aqi}</p>
+                      <p className='absolute text-3xl font-bold text-gray-800'>{weather.current.aqi}</p>
                     </div>
                     <p className={cn('text-lg font-semibold mt-2', getAqiColor(weather.current.aqi))}>{getAqiDescription(weather.current.aqi)}</p>
                   </CardContent>
@@ -186,50 +186,50 @@ export function WeatherPage() {
               {/* Current Conditions */}
               <GlassmorphismCard className="md:col-span-2 xl:col-span-4">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white text-xl">
+                  <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
                     Current Conditions
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 text-gray-200 text-lg">
+                <CardContent className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 text-gray-600 text-lg">
                   <div className="flex items-center gap-3">
-                    <Droplets className="w-7 h-7 text-gray-300" />
+                    <Droplets className="w-7 h-7 text-gray-500" />
                     <div>
-                      <p className="text-sm text-gray-400">Humidity</p>
+                      <p className="text-sm text-gray-500">Humidity</p>
                       <p>{weather.current.humidity}%</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Wind className="w-7 h-7 text-gray-300" />
+                    <Wind className="w-7 h-7 text-gray-500" />
                     <div>
-                      <p className="text-sm text-gray-400">Wind Speed</p>
+                      <p className="text-sm text-gray-500">Wind Speed</p>
                       <p>{weather.current.windSpeed} km/h</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Compass className="w-7 h-7 text-gray-300" />
+                    <Compass className="w-7 h-7 text-gray-500" />
                     <div>
-                      <p className="text-sm text-gray-400">Direction</p>
+                      <p className="text-sm text-gray-500">Direction</p>
                       <p>{weather.current.windDirection}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Eye className="w-7 h-7 text-gray-300" />
+                    <Eye className="w-7 h-7 text-gray-500" />
                      <div>
-                      <p className="text-sm text-gray-400">Visibility</p>
+                      <p className="text-sm text-gray-500">Visibility</p>
                       <p>{weather.current.visibility} km</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                     <p className='text-3xl font-bold'>UV</p>
+                     <p className='text-3xl font-bold text-gray-800'>UV</p>
                      <div>
-                      <p className="text-sm text-gray-400">UV Index</p>
+                      <p className="text-sm text-gray-500">UV Index</p>
                       <p>{weather.current.uvIndex}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-2.4-4.2-4.8-4.8-.4-.1-.7-.2-1.1-.2-1.4.1-2.7.7-3.9.7s-2.5-.7-3.9-.7c-.4 0-.8.1-1.1.2-2.4.6-4.2 2.4-4.8 4.8-.3 1.4 0 2.7.7 3.9.7 1.2 1.8 2.1 3.1 2.7.4.2.8.3 1.2.4 1.4-.1 2.7-.7 3.9-.7s2.5.7 3.9.7c.4 0 .8-.1 1.2-.4 1.3-.6 2.4-1.5 3.1-2.7z"/><path d="M12 15.5a.5.5 0 0 0-1 0V16a1 1 0 0 0 1 1h.5a.5.5 0 0 0 0-1H12v-.5z"/></svg>
                      <div>
-                      <p className="text-sm text-gray-400">Pressure</p>
+                      <p className="text-sm text-gray-500">Pressure</p>
                       <p>{weather.current.pressure} hPa</p>
                     </div>
                   </div>
@@ -240,14 +240,14 @@ export function WeatherPage() {
               <GlassmorphismCard className='xl:col-span-1'>
                 <CardContent className='pt-6 flex items-center justify-around'>
                   <div className="flex flex-col items-center gap-2">
-                    <Sunrise className="w-10 h-10 text-yellow-400" />
-                    <p className="text-lg font-bold text-white">6:05 AM</p>
-                    <p className="text-sm text-gray-400">Sunrise</p>
+                    <Sunrise className="w-10 h-10 text-yellow-500" />
+                    <p className="text-lg font-bold text-gray-800">6:05 AM</p>
+                    <p className="text-sm text-gray-500">Sunrise</p>
                   </div>
                   <div className="flex flex-col items-center gap-2">
-                    <Sunset className="w-10 h-10 text-orange-400" />
-                    <p className="text-lg font-bold text-white">8:30 PM</p>
-                    <p className="text-sm text-gray-400">Sunset</p>
+                    <Sunset className="w-10 h-10 text-orange-500" />
+                    <p className="text-lg font-bold text-gray-800">8:30 PM</p>
+                    <p className="text-sm text-gray-500">Sunset</p>
                   </div>
                 </CardContent>
               </GlassmorphismCard>
@@ -255,7 +255,7 @@ export function WeatherPage() {
               {/* Hourly Forecast */}
               <GlassmorphismCard className="md:col-span-2 xl:col-span-3">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white text-xl">
+                  <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
                     <Clock />
                     Hourly Forecast
                   </CardTitle>
@@ -265,16 +265,16 @@ export function WeatherPage() {
                     <CarouselContent className="-ml-2">
                       {weather.hourly.map((hour, index) => (
                         <CarouselItem key={index} className="pl-2 basis-1/4 sm:basis-1/6 md:basis-[12%]">
-                          <div className="flex flex-col items-center p-2 text-center bg-white/10 rounded-lg h-full justify-between gap-2">
-                            <p className="text-sm font-semibold text-white">{hour.time}</p>
-                            {getIcon(hour.condition, 'w-8 h-8 text-white')}
-                            <p className="text-lg font-bold text-white">{hour.temperature}°</p>
+                          <div className="flex flex-col items-center p-2 text-center bg-black/5 rounded-lg h-full justify-between gap-2">
+                            <p className="text-sm font-semibold text-gray-800">{hour.time}</p>
+                            {getIcon(hour.condition, 'w-8 h-8 text-gray-800')}
+                            <p className="text-lg font-bold text-gray-800">{hour.temperature}°</p>
                           </div>
                         </CarouselItem>
                       ))}
                     </CarouselContent>
-                    <CarouselPrevious className="text-white bg-white/10 border-none hover:bg-white/20 -left-4 hidden sm:flex" />
-                    <CarouselNext className="text-white bg-white/10 border-none hover:bg-white/20 -right-4 hidden sm:flex" />
+                    <CarouselPrevious className="text-gray-800 bg-black/10 border-none hover:bg-black/20 -left-4 hidden sm:flex" />
+                    <CarouselNext className="text-gray-800 bg-black/10 border-none hover:bg-black/20 -right-4 hidden sm:flex" />
                   </Carousel>
                 </CardContent>
               </GlassmorphismCard>
@@ -282,7 +282,7 @@ export function WeatherPage() {
               {/* 7-Day Forecast */}
               <GlassmorphismCard className="md:col-span-2 xl:col-span-4">
                  <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-white text-xl">
+                  <CardTitle className="flex items-center gap-2 text-gray-800 text-xl">
                     <BarChart />
                     7-Day Forecast
                   </CardTitle>
@@ -290,15 +290,15 @@ export function WeatherPage() {
                 <CardContent className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                   <div className="grid grid-cols-4 lg:grid-cols-7 xl:col-span-1 gap-2 text-center">
                     {weather.forecast.map((day, index) => (
-                      <div key={index} className="flex flex-col items-center p-3 bg-white/10 rounded-lg">
-                        <p className="font-semibold text-white">{day.day.substring(0,3)}</p>
-                        <div className="my-2">{getIcon(day.condition, 'w-8 h-8 text-white')}</div>
-                        <p className="text-lg font-bold text-white">{day.temperature}°</p>
+                      <div key={index} className="flex flex-col items-center p-3 bg-black/5 rounded-lg">
+                        <p className="font-semibold text-gray-800">{day.day.substring(0,3)}</p>
+                        <div className="my-2">{getIcon(day.condition, 'w-8 h-8 text-gray-800')}</div>
+                        <p className="text-lg font-bold text-gray-800">{day.temperature}°</p>
                       </div>
                     ))}
                   </div>
                   <div className="h-64 xl:col-span-1">
-                    <ChartContainer config={{}} className='text-white'>
+                    <ChartContainer config={{}} className='text-gray-800'>
                       <ResponsiveContainer width="100%" height="100%">
                           <AreaChart data={weather.forecast} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                               <defs>
@@ -307,8 +307,8 @@ export function WeatherPage() {
                                       <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                                   </linearGradient>
                               </defs>
-                              <XAxis dataKey="day" stroke="hsl(var(--foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => value.substring(0, 3)} />
-                              <YAxis stroke="hsl(var(--foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
+                              <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => value.substring(0, 3)} />
+                              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}°`} />
                               <CartesianGrid strokeDasharray="3 3" stroke='hsl(var(--border))' />
                               <Tooltip 
                                 contentStyle={{
@@ -328,11 +328,11 @@ export function WeatherPage() {
               </GlassmorphismCard>
             </div>
           ) : (!weather && !isPending && (
-            <div className="flex items-center justify-center h-[calc(100vh-200px)] text-center text-gray-400">
-              <div className='flex flex-col items-center justify-center p-8 bg-black/20 rounded-2xl'>
-                <Sun className="h-24 w-24 mx-auto text-gray-500" />
-                <p className="mt-4 text-lg text-gray-300">Enter a city to get the weather forecast.</p>
-                <p className="text-sm text-gray-500">e.g. London, New York, Tokyo</p>
+            <div className="flex items-center justify-center h-[calc(100vh-200px)] text-center text-gray-500">
+              <div className='flex flex-col items-center justify-center p-8 bg-black/5 rounded-2xl'>
+                <Sun className="h-24 w-24 mx-auto text-gray-400" />
+                <p className="mt-4 text-lg text-gray-600">Enter a city to get the weather forecast.</p>
+                <p className="text-sm text-gray-400">e.g. London, New York, Tokyo</p>
               </div>
             </div>
           ))}
