@@ -6,10 +6,9 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer } from '@/components/ui/chart';
 import { Sun, Cloud, CloudRain, CloudSnow, Wind, Search, Loader2, Shirt, Droplets, Eye, Gauge, Compass, Sunrise, Sunset, Clock, BarChart, MapPin, Globe, Cloudy, Drama, Leaf, Trees, WindIcon, Flower, Sparkles } from 'lucide-react';
 import { getWeather, WeatherData } from '@/ai/flows/get-weather';
-import { getWeatherSummary } from '@/ai/flows/get-weather-summary';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './ui/carousel';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
@@ -38,22 +37,14 @@ const majorCities = ['New York', 'London', 'Tokyo', 'Paris', 'Sydney', 'Dubai', 
 export function WeatherPage() {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState<WeatherData | null>(null);
-  const [summary, setSummary] = useState('');
   const [isPending, startTransition] = useTransition();
 
   const handleSearch = (searchCity: string) => {
     if (!searchCity) return;
     startTransition(async () => {
       setWeather(null);
-      setSummary('');
       const weatherResult = await getWeather({ city: searchCity });
       setWeather(weatherResult);
-      if(weatherResult.current.condition !== 'Error') {
-        const summaryResult = await getWeatherSummary(weatherResult);
-        setSummary(summaryResult);
-      } else {
-        setSummary('Could not retrieve weather details. Please try again.');
-      }
     });
   };
 
@@ -155,11 +146,21 @@ export function WeatherPage() {
                   </div>
               </div>
             )}
+            
+            {weather && weather.current.condition === 'Error' && (
+              <div className="flex items-center justify-center h-[calc(100vh-160px)] text-center text-foreground">
+                <GlassmorphismCard className='p-8'>
+                  <CloudRain className="h-20 w-20 mx-auto text-destructive" />
+                  <p className="mt-4 text-base text-foreground">Could not retrieve weather for {city}.</p>
+                  <p className="text-xs text-muted-foreground">Please check the city name or try again later.</p>
+                </GlassmorphismCard>
+              </div>
+            )}
 
-            {weather ? (
+            {weather && weather.current.condition !== 'Error' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 animate-in fade-in-50 duration-500">
                 {/* Current Weather */}
-                <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
+                <GlassmorphismCard className="md:col-span-2 xl:col-span-4 text-foreground">
                   <CardHeader className="flex flex-row items-start justify-between pb-2">
                     <div className='flex flex-col'>
                       <CardTitle className="text-2xl sm:text-3xl">{weather.current.city}</CardTitle>
@@ -170,26 +171,6 @@ export function WeatherPage() {
                   <CardContent className='flex flex-row items-end justify-between'>
                       <p className="text-7xl sm:text-8xl font-bold">{weather.current.temperature}°</p>
                       <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {weather.current.feelsLike}°</p>
-                  </CardContent>
-                </GlassmorphismCard>
-                
-                {/* AI Summary */}
-                <GlassmorphismCard className="md:col-span-2 xl:col-span-2 text-foreground">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                      <Sparkles className='text-primary' />
-                      AI Summary
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {summary ? (
-                       <p className="text-sm sm:text-md text-muted-foreground">{summary}</p>
-                    ) : (
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                        <span>Generating summary...</span>
-                      </div>
-                    )}
                   </CardContent>
                 </GlassmorphismCard>
 
