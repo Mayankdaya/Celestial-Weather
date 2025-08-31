@@ -21,7 +21,7 @@ export const WeatherDataSchema = z.object({
       temperature: z.number().describe('Predicted temperature in Celsius.'),
       condition: z.string().describe('Predicted condition (e.g., Clear, Clouds, Rain, Snow).'),
     })
-  ).length(3).describe('A 3-day weather forecast.'),
+  ).length(5).describe('A 5-day weather forecast.'),
   hourly: z.array(
     z.object({
       time: z.string().describe("Hour of the day, e.g., '3PM', '4PM'."),

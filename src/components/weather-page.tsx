@@ -122,12 +122,12 @@ export function WeatherPage() {
                 
                 <div className="border-t border-white/20" />
 
-                <div className="flex justify-around gap-2">
+                <div className="grid grid-cols-5 gap-2">
                   {weather.forecast.map((day, index) => (
-                    <div key={index} className="flex flex-col items-center p-3 w-1/3 bg-white/10 rounded-2xl text-center">
-                      <p className="text-sm font-semibold">{day.day}</p>
-                      <div className='my-1 w-12 h-12'>{getIcon(day.condition, 48, 48)}</div>
-                      <p className="font-bold text-lg">{day.temperature}°</p>
+                    <div key={index} className="flex flex-col items-center p-2 bg-white/10 rounded-2xl text-center">
+                      <p className="text-xs font-semibold">{day.day}</p>
+                      <div className='my-1 w-10 h-10'>{getIcon(day.condition, 40, 40)}</div>
+                      <p className="font-bold text-base">{day.temperature}°</p>
                     </div>
                   ))}
                 </div>
