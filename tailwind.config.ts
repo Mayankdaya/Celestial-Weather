@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 export default {
   darkMode: ['class'],
@@ -88,12 +89,42 @@ export default {
             height: '0',
           },
         },
+        'spin-slow': {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        wiggle: {
+            '0%, 100%': { transform: 'rotate(-3deg)' },
+            '50%': { transform: 'rotate(3deg)' },
+        },
+        shake: {
+            '0%, 100%': { transform: 'translateX(0)' },
+            '25%': { transform: 'translateX(-5px)' },
+            '75%': { transform: 'translateX(5px)' },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'spin-slow': 'spin-slow 10s linear infinite',
+        float: 'float 3s ease-in-out infinite',
+        wiggle: 'wiggle 1.5s ease-in-out infinite',
+        shake: 'shake 1s ease-in-out infinite',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.pause': {
+          'animation-play-state': 'paused',
+        },
+      });
+    }),
+  ],
 } satisfies Config;

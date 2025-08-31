@@ -18,12 +18,12 @@ export function LandingPage() {
         <main className="flex flex-col min-h-screen w-full items-center justify-center p-4 sm:p-6 lg:p-8 space-y-12">
             <GlassmorphismCard className="p-8 md:p-12 w-full max-w-4xl text-center">
                 <div className="flex justify-center items-center gap-4 mb-4">
-                    <Sun className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)]" />
-                    <CloudLightning className="w-10 h-10 text-white" />
-                    <Gauge className="w-10 h-10 text-blue-300" />
-                    <Leaf className="w-10 h-10 text-green-300" />
-                    <BarChart className="w-10 h-10 text-purple-300" />
-                    <Smartphone className="w-10 h-10 text-gray-300" />
+                    <Sun className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)] animate-spin-slow hover:pause" />
+                    <CloudLightning className="w-10 h-10 text-white animate-wiggle hover:pause" />
+                    <Gauge className="w-10 h-10 text-blue-300 animate-float hover:pause" />
+                    <Leaf className="w-10 h-10 text-green-300 animate-float hover:pause [animation-delay:0.2s]" />
+                    <BarChart className="w-10 h-10 text-purple-300 animate-float hover:pause [animation-delay:0.4s]" />
+                    <Smartphone className="w-10 h-10 text-gray-300 animate-shake hover:pause" />
                 </div>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight">
                     Celestial Weather
