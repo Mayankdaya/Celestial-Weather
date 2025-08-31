@@ -15,6 +15,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from './ui/sidebar';
 import * as LucideIcons from 'lucide-react';
 import { Progress } from './ui/progress';
+import { Switch } from './ui/switch';
+import { Label } from './ui/label';
 
 const getIcon = (condition: string, className = "w-16 h-16") => {
     const iconProps = { className };
@@ -39,6 +41,16 @@ export function WeatherPage() {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [unit, setUnit] = useState<'C' | 'F'>('C');
+
+  const convertToF = (celsius: number) => Math.round((celsius * 9/5) + 32);
+
+  const displayTemp = (celsius: number) => {
+    if (unit === 'F') {
+      return convertToF(celsius);
+    }
+    return celsius;
+  }
 
   const handleSearch = (searchCity: string) => {
     if (!searchCity) return;
@@ -125,19 +137,26 @@ export function WeatherPage() {
                   </Link>
                 </div>
 
-                <div className="relative flex w-full sm:max-w-xs">
-                  <Input
-                    type="text"
-                    placeholder="Enter a city..."
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
-                  />
-                  <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
-                    {isPending ? <Loader2 className="animate-spin" /> : <Search />}
-                    <span className="ml-1 hidden xs:inline">Search</span>
-                  </Button>
+                <div className="flex items-center gap-4">
+                   <div className="flex items-center space-x-2">
+                    <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'C' ? 'text-primary' : 'text-muted-foreground')}>°C</Label>
+                    <Switch id="temp-unit" checked={unit === 'F'} onCheckedChange={(checked) => setUnit(checked ? 'F' : 'C')} />
+                    <Label htmlFor="temp-unit" className={cn('font-bold', unit === 'F' ? 'text-primary' : 'text-muted-foreground')}>°F</Label>
+                  </div>
+                  <div className="relative flex w-full sm:max-w-xs">
+                    <Input
+                      type="text"
+                      placeholder="Enter a city..."
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      className="pr-20 h-11 text-base bg-white/40 dark:bg-black/40 border-black/20 dark:border-white/20 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-foreground rounded-full focus:ring-primary focus:border-primary"
+                    />
+                    <Button onClick={() => handleSearch(city)} disabled={isPending} className="absolute right-1 top-1/2 -translate-y-1/2 h-9 rounded-full px-3">
+                      {isPending ? <Loader2 className="animate-spin" /> : <Search />}
+                      <span className="ml-1 hidden xs:inline">Search</span>
+                    </Button>
+                  </div>
                 </div>
             </header>
 
@@ -172,8 +191,8 @@ export function WeatherPage() {
                     {getIcon(weather.current.condition, 'w-16 h-16 sm:w-20 sm:h-20 drop-shadow-lg')}
                   </CardHeader>
                   <CardContent className='flex flex-row items-end justify-between'>
-                      <p className="text-7xl sm:text-8xl font-bold">{weather.current.temperature}°</p>
-                      <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {weather.current.feelsLike}°</p>
+                      <p className="text-7xl sm:text-8xl font-bold">{displayTemp(weather.current.temperature)}°</p>
+                      <p className="text-xl sm:text-2xl text-muted-foreground mb-2">Feels like {displayTemp(weather.current.feelsLike)}°</p>
                   </CardContent>
                 </GlassmorphismCard>
 
@@ -186,7 +205,7 @@ export function WeatherPage() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm sm:text-md text-muted-foreground">{weather.current.outfitSuggestion}</p>
+                    <p className="text-sm sm:text-md text-muted-foreground">{weather.current.outfitSuggestion.replace(/(\d+)\s?°C/g, `${displayTemp(parseInt('$1'))}°${unit}`)}</p>
                   </CardContent>
                 </GlassmorphismCard>
 
@@ -391,7 +410,7 @@ export function WeatherPage() {
                             <div className="flex flex-col items-center text-center p-2 bg-black/10 dark:bg-white/10 rounded-lg h-full justify-between">
                               <p className="text-sm font-medium">{hour.time}</p>
                               <div className="my-1">{getIcon(hour.condition, 'w-8 h-8')}</div>
-                              <p className="text-base font-bold">{hour.temperature}°</p>
+                              <p className="text-base font-bold">{displayTemp(hour.temperature)}°</p>
                             </div>
                           </CarouselItem>
                         ))}
@@ -416,14 +435,14 @@ export function WeatherPage() {
                         <div key={index} className="flex flex-col items-center p-2 bg-black/10 dark:bg-white/10 rounded-lg">
                           <p className="font-semibold text-sm">{day.day.substring(0,3)}</p>
                           <div className="my-1">{getIcon(day.condition, 'w-8 h-8')}</div>
-                          <p className="text-base font-bold">{day.temperature}°</p>
+                          <p className="text-base font-bold">{displayTemp(day.temperature)}°</p>
                         </div>
                       ))}
                     </div>
                     <div className="h-56 sm:h-64 xl:col-span-1">
                       <ChartContainer config={{}} className='text-foreground'>
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={weather.forecast} margin={{ top: 10, right: 30, left: -10, bottom: 0 }}>
+                            <AreaChart data={weather.forecast.map(d => ({...d, temperature: displayTemp(d.temperature)}))} margin={{ top: 10, right: 30, left: -10, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
